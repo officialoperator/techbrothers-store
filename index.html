@@ -11,6 +11,13 @@
 <meta property="og:title" content="Techbrothers.za | Black Friday Month">
 <meta property="og:description" content="Certified pre-owned and brand new iPhones from R2,899. Order online, nationwide delivery.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://techbrothers.co.za/">
+<meta property="og:image" content="https://techbrothers.co.za/media/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Techbrothers Black Friday Month iPhone deals">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://techbrothers.co.za/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -476,6 +483,43 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
   .hx-rv .tbr{padding:36px 0 4px;margin:0 -20px}
 }
 @media (max-width:420px){.hxd{display:none}}
+
+/* ===== fit-and-finish fixes (2026-11-19) ===== */
+/* 1. SALE tag: one size rule for cards and the product page, text centred inside the circle */
+.sale{width:46px;height:46px;padding:0 0 0 .08em;display:grid;place-items:center;font-size:10.5px;letter-spacing:.08em;line-height:1;border-radius:50%;text-align:center;white-space:nowrap}
+.detail .big .sale{top:14px;left:14px;width:58px;height:58px;padding:0 0 0 .08em;font-size:13px;letter-spacing:.08em}
+/* 2. never split "pre-owned" over two lines */
+.nobr,.pay .sum span.nobr{display:inline;white-space:nowrap;font-size:inherit;color:inherit}
+/* 3. cards in a row line up: colour dots and "Order this phone" share one baseline */
+.card>.card-hit{flex:1 0 auto}
+/* 4/5. buttons stay on one line */
+.end .pill{white-space:nowrap}
+.thanks .pill{white-space:nowrap}
+/* 7. phones: "Brand new phones" sits with "Certified pre-owned" in the hero */
+@media (max-width:900px){
+  .hx{grid-template-areas:"t" "c" "l" "r2" "r" "v"}
+  .hx-copy{order:-2}
+  .hx-r2{padding-top:14px}
+  .hx-r2 .plus{margin-top:0;flex-direction:row-reverse;justify-content:space-between;align-items:flex-end;align-self:stretch;background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:20px;padding:14px 16px;font-size:15px;line-height:1.25;box-shadow:0 10px 30px -22px rgba(0,0,0,.35)}
+  .hx-r2 .plus .circ.lg{width:30px;height:30px;border-color:var(--line)}
+  .hx-r2 .plus .circ.lg svg{width:14px;height:14px}
+}
+/* 8. payment and order-received pages centred on wide screens */
+#shop .pay{margin-left:auto;margin-right:auto;width:100%}
+#shop .back:has(+ .pay){display:flex;width:fit-content;margin-left:max(0px,calc((100% - 640px) / 2))}
+/* tablet: header stays on one line (text links only where they fit) */
+@media (max-width:1000px){.nav .link{display:none}}
+.nav{flex-wrap:nowrap}
+/* 12. review dots: bigger tap area, same look */
+#reviews .tbr-dots{gap:0}
+#reviews .tbr-dots button{width:20px;height:32px;background:none;display:grid;place-items:center;transition:width .35s}
+#reviews .tbr-dots button::before{content:"";display:block;width:8px;height:8px;border-radius:8px;background:rgba(0,0,0,.18);transition:width .35s,background .35s}
+#reviews .tbr-dots button[aria-current="true"]{width:38px;background:none}
+#reviews .tbr-dots button[aria-current="true"]::before{width:26px;background:var(--tbr-red)}
+@media (prefers-reduced-motion:reduce){#reviews .tbr-dots button,#reviews .tbr-dots button::before{transition:none}}
+/* 13. payment page trust line fits on one line on desktop */
+.pay .ptrust{display:grid;grid-template-columns:repeat(2,max-content);justify-content:center;gap:8px 20px}
+@media (max-width:380px){.pay .ptrust{grid-template-columns:max-content}}
 </style>
 </head>
 <body>
@@ -519,7 +563,7 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
     <div class="hx-c"><div class="hx-art" id="hero-art"></div><div class="stone" aria-hidden="true"></div></div>
     <div class="hx-r">
       <div class="mini ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 7h11v9H2zM13 10h4l4 3v3h-8z"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg><b>Nationwide delivery</b><span>To your door, anywhere in South Africa</span></div>
-      <div class="mini cd"><p id="cd-hero" role="timer">Sale ends 31 Dec</p><span>Black Friday Month, 16 Nov to 31 Dec</span></div>
+      <div class="mini cd"><p id="cd-hero" role="timer">Sale ends 31 Dec</p><span>Black Friday Month, 16&nbsp;Nov to 31&nbsp;Dec</span></div>
 
     </div>
     <div class="hx-rv"><!-- ===== TB REVIEWS (customer photos + videos, Google reviews slot) ===== -->
@@ -1052,6 +1096,7 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
   var END   = Date.UTC(2026,11,31,21,59,59); // 31 Dec 2026 23:59 SAST
   /* ----------------------------------------------------- */
 
+  function nobr(t){ return String(t).replace(/(certified )?pre-owned/gi, function(m){ return '<span class="nobr">' + m + '</span>'; }); }
   var COND = {pre:{label:'Certified pre-owned', lower:'certified pre-owned', slug:'pre-owned'},
               neu:{label:'Brand new',           lower:'brand new',           slug:'brand-new'}};
   var SERIES = ['X','11','12','13','14','15','16','18'];
@@ -1133,7 +1178,7 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
       var e = LIST[i], less = c === 'pre' && e.neu && e.neu > e.pre ? e.neu - e.pre : 0;
       return '<div class="card"><button class="card-hit" data-open="' + i + '" aria-label="Order the ' + e.m + ' ' + e.gb + 'GB, ' + COND[c].lower + ', ' + money(e[c]) + '">' +
         '<span class="pic"><span class="sale">Sale</span>' + phone(e) + '</span>' +
-        '<span class="name">' + e.m + '</span><span class="spec">' + e.gb + 'GB, ' + COND[c].lower + '</span>' +
+        '<span class="name">' + e.m + '</span><span class="spec">' + e.gb + 'GB, ' + nobr(COND[c].lower) + '</span>' +
         '<span class="price">' + money(e[c]) + '</span>' + (less ? '<span class="tag">' + money(less) + ' less than new</span>' : '') + '</button>' +
         swatches(e.m) +
         '<button class="go" data-open="' + i + '" tabindex="-1" aria-hidden="true">Order this phone</button></div>';
@@ -1164,7 +1209,7 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
     var conds = ['pre','neu'].filter(function(k){ return e[k]; });
     var h = '<button class="back" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>All phones</button>' +
       '<div class="detail"><div class="big"><span class="sale">Sale</span>' + phone(e) + '</div><div class="body">' +
-      '<div><h2 class="h2">' + e.m + '</h2><p class="spec">' + e.gb + 'GB, ' + COND[c].lower + '</p><p class="price">' + money(e[c]) + '</p></div>';
+      '<div><h2 class="h2">' + e.m + '</h2><p class="spec">' + e.gb + 'GB, ' + nobr(COND[c].lower) + '</p><p class="price">' + money(e[c]) + '</p></div>';
     if (conds.length > 1) h += '<div class="opt"><h3>Condition</h3><div class="row">' + conds.map(function(k){
       return '<button data-pick-cond="' + k + '" aria-pressed="' + (k === c) + '"><b>' + COND[k].label + '</b><span>' + money(e[k]) + '</span></button>'; }).join('') + '</div></div>';
     if (sizes.length > 1) h += '<div class="opt"><h3>Storage</h3><div class="row">' + sizes.map(function(i){
@@ -1210,7 +1255,7 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
     return '<button class="back" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>All phones</button>' +
       '<div class="pay">' +
       '<p class="ok" role="status">' + (p.no ? 'Order TB-' + p.no + ' placed' : 'Almost done') + '</p>' +
-      '<div class="sum"><div><b>' + esc(p.m) + '</b><span>' + p.gb + 'GB, ' + esc(p.cond) + (p.no ? ' &middot; Order TB-' + p.no : '') + '</span></div><strong>' + money(p.price) + '</strong></div>' +
+      '<div class="sum"><div><b>' + esc(p.m) + '</b><span>' + p.gb + 'GB, ' + nobr(esc(p.cond)) + '</span>' + (p.no ? '<span>Order TB-' + p.no + '</span>' : '') + '</div><strong>' + money(p.price) + '</strong></div>' +
       '<div><h2 class="h2">Pay by EFT</h2><p class="spec" style="color:var(--muted);margin-top:6px">Pay in your banking app using the details below, then upload your proof of payment here.</p></div>' +
       '<div class="due"><div><small>Pay exactly</small><b>' + money(p.price) + '</b></div><div><small>Reference</small><b>' + esc(p.ref) + '</b></div></div>' +
       '<p class="due-note">Use this reference so we can match your payment to your order.</p>' +
@@ -1273,16 +1318,22 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
     var neu = /brand new/i.test(cond);
     return '<div class="thanks"><h3>Thank you for your purchase</h3>' +
       '<p>Your warranty: <b>' + (neu ? '6-month limited warranty (brand new)' : '30-day limited warranty (pre-owned)') + '</b>. Please read the full Warranty and Returns policy, and keep it with your order number as proof of purchase.</p>' +
-      (POLICY ? '<a class="pill gold" href="' + esc(POLICY) + '" download>Download Warranty and Returns policy (PDF)</a>' : '') + '</div>';
+      (POLICY ? '<a class="pill gold" href="' + esc(POLICY) + '" download>Download Warranty &amp; Returns (PDF)</a>' : '') + '</div>';
   }
   // Confirmation page, shown after "Order online"
+  function fmtNum(n){
+    var d = String(n || '');
+    if (/^0\d{9}$/.test(d)) return d.slice(0,3) + ' ' + d.slice(3,6) + ' ' + d.slice(6);
+    if (/^\+27\d{9}$/.test(d)) return '+27 ' + d.slice(3,5) + ' ' + d.slice(5,8) + ' ' + d.slice(8);
+    return d;
+  }
   function doneHTML(){
     var d = state.done;
     return '<button class="back" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>All phones</button>' +
       '<div class="pay">' +
       '<p class="ok" role="status">' + (d.no ? 'Order TB-' + d.no + ' received' : 'Order received') + '</p>' +
-      '<div><h2 class="h2">Thank you, ' + esc(d.name) + '</h2><p class="spec" style="color:var(--muted);margin-top:6px">Your order is saved. A Techbrothers representative will contact you on ' + esc(d.num) + ' to confirm stock and colour and arrange payment and delivery.</p></div>' +
-      '<div class="sum"><div><b>' + esc(d.m) + '</b><span>' + d.gb + 'GB, ' + esc(d.cond) + '</span></div><strong>' + money(d.price) + '</strong></div>' +
+      '<div><h2 class="h2">Thank you, ' + esc(d.name) + '</h2><p class="spec" style="color:var(--muted);margin-top:6px">Your order is saved. A Techbrothers representative will contact you on <span class="nobr">' + esc(fmtNum(d.num)) + '</span> to confirm stock and colour and arrange payment and delivery.</p></div>' +
+      '<div class="sum"><div><b>' + esc(d.m) + '</b><span>' + d.gb + 'GB, ' + nobr(esc(d.cond)) + '</span></div><strong>' + money(d.price) + '</strong></div>' +
       '<p class="fine">' + (d.no ? 'Keep your order number: <b>TB-' + d.no + '</b>. ' : '') + 'You pay nothing until a representative has confirmed your order with you.</p>' +
       thanksHTML(d.cond) +
       '</div>';
@@ -1376,7 +1427,7 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
 
   // Sharing: the phone's own share menu where it exists, otherwise copy the link
   var SHARE_TXT = 'Black Friday Month iPhone deals at Techbrothers.za: certified pre-owned and brand new from R2,899, with nationwide delivery.';
-  function storeURL(){ return location.href.split('#')[0]; }
+  function storeURL(){ return location.origin + location.pathname.replace(/index\.html$/, ''); }   // no ?src= tags in shared links
   function copyLink(url, done){
     try { navigator.clipboard.writeText(url).then(function(){ done(true); }, function(){ done(false); }); } catch(_){ done(false); }
   }
