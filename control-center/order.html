@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f6f6f4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="TB Control">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20rx%3D%22112%22%20fill%3D%22%230e0e10%22/%3E%3Ctext%20x%3D%22256%22%20y%3D%22322%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-weight%3D%22700%22%20font-size%3D%22220%22%20fill%3D%22%239be3a6%22%3ETB%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20rx%3D%22112%22%20fill%3D%22%230e0e10%22/%3E%3Ctext%20x%3D%22256%22%20y%3D%22322%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-weight%3D%22700%22%20font-size%3D%22220%22%20fill%3D%22%239be3a6%22%3ETB%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%20%22Techbrothers%20Control%20Center%22%2C%20%22short_name%22%3A%20%22TB%20Control%22%2C%20%22start_url%22%3A%20%22./order.html%22%2C%20%22scope%22%3A%20%22./%22%2C%20%22display%22%3A%20%22standalone%22%2C%20%22background_color%22%3A%20%22%23f6f6f4%22%2C%20%22theme_color%22%3A%20%22%23f6f6f4%22%2C%20%22icons%22%3A%20%5B%7B%22src%22%3A%20%22data%3Aimage/svg%2Bxml%2C%253Csvg%2520xmlns%253D%2522http%253A//www.w3.org/2000/svg%2522%2520viewBox%253D%25220%25200%2520512%2520512%2522%253E%253Crect%2520width%253D%2522512%2522%2520height%253D%2522512%2522%2520rx%253D%2522112%2522%2520fill%253D%2522%25230e0e10%2522/%253E%253Ctext%2520x%253D%2522256%2522%2520y%253D%2522322%2522%2520text-anchor%253D%2522middle%2522%2520font-family%253D%2522Arial%252CHelvetica%252Csans-serif%2522%2520font-weight%253D%2522700%2522%2520font-size%253D%2522220%2522%2520fill%253D%2522%25239be3a6%2522%253ETB%253C/text%253E%253C/svg%253E%22%2C%20%22sizes%22%3A%20%22512x512%22%2C%20%22type%22%3A%20%22image/svg%2Bxml%22%2C%20%22purpose%22%3A%20%22any%22%7D%5D%7D">
+<title>Control Center · Techbrothers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f6f4; --card:#ffffff; --ink:#0e0e10; --ink-2:#3b3b40; --muted:#7a7a82; --line:#ececea; --line-2:#e2e2df;
+  --soft:#f3f3f1; --accent:#9be3a6; --accent-ink:#0f5a22; --accent-soft:#e8f8eb;
+  --red:#e5484d; --red-soft:#fdecec; --amber:#b9770e; --amber-soft:#fdf3e1; --blue:#2f6fe4; --blue-soft:#e9f0fd;
+  --violet:#7c5cff; --r:18px; --r-sm:12px; --shadow:0 1px 2px rgba(16,16,20,.04),0 4px 18px rgba(16,16,20,.04);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:14px;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:inherit;text-decoration:none}
+.num{font-variant-numeric:tabular-nums}
+svg{display:block}
+
+/* ---------- Lock screen ---------- */
+#lock{min-height:100vh;display:grid;place-items:center;padding:24px}
+.lock-card{width:100%;max-width:400px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;letter-spacing:-.02em}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:15px;font-weight:700}
+.lock-card h1{font-size:24px;letter-spacing:-.03em;margin:28px 0 6px}
+.lock-card p{color:var(--muted);line-height:1.5}
+.field{margin-top:22px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:8px}
+.input{width:100%;height:46px;border:1px solid var(--line-2);border-radius:var(--r-sm);padding:0 14px;background:var(--soft);outline:none;transition:.15s}
+.input:focus{border-color:var(--ink);background:#fff}
+.btn{height:42px;padding:0 16px;border-radius:var(--r-sm);display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;white-space:nowrap;transition:.15s}
+.btn-dark{background:var(--ink);color:#fff}.btn-dark:hover{background:#26262b}
+.btn-line{border:1px solid var(--line-2);background:#fff}.btn-line:hover{background:var(--soft)}
+.btn-accent{background:var(--accent);color:var(--accent-ink)}.btn-accent:hover{filter:brightness(.96)}
+.btn-block{width:100%;height:48px;margin-top:16px}
+.btn:disabled{opacity:.5;cursor:default}
+.err{color:var(--red);font-size:13px;margin-top:12px;min-height:18px}
+.demo-link{display:block;text-align:center;margin-top:18px;color:var(--muted);font-size:13px;text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- Shell ---------- */
+#app{display:none;min-height:100vh}
+.shell{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+.side{background:var(--card);border-right:1px solid var(--line);padding:22px 16px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.side .brand{padding:0 8px 22px}
+.nav-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding:14px 10px 8px}
+.nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;color:var(--ink-2);font-weight:500;margin-bottom:2px;transition:.15s}
+.nav a:hover{background:var(--soft)}
+.nav a.on{background:var(--ink);color:#fff}
+.nav a .badge{margin-left:auto;background:var(--red);color:#fff;font-size:11px;font-weight:700;border-radius:99px;padding:1px 7px}
+.nav a.on .badge{background:#fff;color:var(--ink)}
+.ico{width:18px;height:18px;flex:none}
+.side-card{margin-top:auto;background:var(--ink);color:#fff;border-radius:var(--r);padding:18px}
+.side-card .t{font-weight:600;font-size:15px;margin:12px 0 4px}
+.side-card p{color:#a9a9b0;font-size:12px;line-height:1.5}
+.side-card .btn{margin-top:14px;width:100%;background:#2a2a30;color:#fff;height:38px}
+.side-card .live{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--accent)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(155,227,166,.25)}
+
+.main{min-width:0;padding:22px 28px 60px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.search{flex:1;max-width:440px;position:relative}
+.search .input{height:42px;background:#fff;padding-left:40px;border-color:var(--line)}
+.search svg{position:absolute;left:13px;top:12px;color:var(--muted)}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.icon-btn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;position:relative}
+.icon-btn:hover{background:var(--soft)}
+.icon-btn .pip{position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid #fff}
+.me{display:flex;align-items:center;gap:10px;padding-left:6px}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:13px}
+.me .n{font-weight:600;font-size:13px}.me .s{font-size:12px;color:var(--muted)}
+.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+
+.head{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.head h1{font-size:28px;letter-spacing:-.035em;font-weight:700}
+.head p{color:var(--muted);margin-top:4px}
+.head .acts{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.seg{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{height:34px;padding:0 12px;border-radius:9px;font-weight:600;font-size:13px;color:var(--muted)}
+.seg button.on{background:var(--ink);color:#fff}
+.demo-banner{display:none;background:var(--amber-soft);color:var(--amber);border-radius:12px;padding:10px 14px;font-size:13px;font-weight:500;margin-bottom:16px}
+
+/* ---------- Cards ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.card-h{display:flex;align-items:center;gap:10px;padding:18px 20px 0}
+.card-h h3{font-size:15px;font-weight:600;letter-spacing:-.01em}
+.card-h .more{margin-left:auto;font-size:12px;font-weight:600;color:var(--ink-2);border:1px solid var(--line);border-radius:99px;padding:6px 12px}
+.card-h .more:hover{background:var(--soft)}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;border-radius:99px;padding:3px 9px;white-space:nowrap}
+.grid-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
+.kpi{padding:18px 20px;position:relative;overflow:hidden}
+.kpi .l{display:flex;align-items:center;justify-content:space-between;font-weight:500;color:var(--ink-2)}
+.kpi .l .k-ico{width:34px;height:34px;border-radius:10px;background:var(--soft);display:grid;place-items:center}
+.kpi .v{font-size:28px;font-weight:700;letter-spacing:-.035em;margin:14px 0 6px}
+.kpi .d{font-size:12px;color:var(--muted)}
+.up{color:#17924a;font-weight:600}.down{color:var(--red);font-weight:600}
+.kpi.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.kpi.dark .l{color:#d6d6db}.kpi.dark .k-ico{background:#fff;color:var(--ink)}.kpi.dark .d{color:#9a9aa2}.kpi.dark .up{color:var(--accent)}
+.kpi .bar{height:5px;border-radius:9px;background:var(--soft);margin-top:12px;overflow:hidden}
+.kpi .bar i{display:block;height:100%;background:var(--red);border-radius:9px}
+.kpi .tag{margin-top:10px}
+
+.quick{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+
+.grid-2{display:grid;grid-template-columns:1.55fr 1fr;gap:16px;margin-bottom:16px}
+.grid-3{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:16px;margin-bottom:16px}
+
+.chart-wrap{padding:6px 12px 14px;position:relative}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--ink-2);margin-left:auto}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:8px;height:8px;border-radius:50%}
+.chart-big{padding:10px 20px 0;display:flex;align-items:baseline;gap:10px}
+.chart-big b{font-size:24px;letter-spacing:-.03em}
+.tip{position:absolute;pointer-events:none;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.08);padding:8px 10px;font-size:12px;opacity:0;transition:opacity .1s;white-space:nowrap;z-index:5}
+.tip .t{font-weight:600;margin-bottom:4px}
+.tip div{display:flex;gap:8px;align-items:center}
+.tip i{width:7px;height:7px;border-radius:50%}
+
+.list{padding:10px 8px 10px}
+.row-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px}
+.row-item:hover{background:var(--soft)}
+.row-item .ri-ico{width:40px;height:40px;border-radius:11px;background:var(--soft);display:grid;place-items:center;flex:none}
+.row-item .ri-main{min-width:0;flex:1}
+.row-item .ri-t{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-item .ri-s{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-item .ri-r{text-align:right;flex:none}
+.row-item .ri-r b{font-size:13px}
+.empty{padding:28px 20px;text-align:center;color:var(--muted);font-size:13px}
+
+.act{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;border-bottom:1px solid var(--line)}
+.act:last-child{border-bottom:0}
+.act .ri-main{flex:1;min-width:0}
+.act .btn{height:34px;font-size:12px}
+.prio-High{background:var(--red-soft);color:var(--red)}
+.prio-Medium{background:var(--amber-soft);color:var(--amber)}
+.prio-Low{background:var(--soft);color:var(--ink-2)}
+
+.donut-wrap{display:flex;flex-direction:column;align-items:center;gap:18px;padding:18px 20px}
+.donut-legend{width:100%;display:grid;gap:9px;font-size:12px}
+.donut-legend span{white-space:nowrap}
+.donut-legend div{display:flex;align-items:center;gap:8px}
+.donut-legend i{width:9px;height:9px;border-radius:3px;flex:none}
+.donut-legend span{color:var(--muted);margin-left:auto}
+
+.pipe{padding:16px 20px 20px;display:grid;gap:12px}
+.pipe-row{display:grid;grid-template-columns:92px 1fr 44px;align-items:center;gap:10px;font-size:13px}
+.pipe-row .track{height:10px;background:var(--soft);border-radius:9px;overflow:hidden}
+.pipe-row .track i{display:block;height:100%;border-radius:9px;transition:width .5s}
+
+/* ---------- Table ---------- */
+.tbl-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:16px 20px}
+.tbl-tools h3{font-size:15px;font-weight:600;margin-right:auto}
+.select{height:38px;border:1px solid var(--line-2);border-radius:10px;background:#fff;padding:0 30px 0 12px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a7a82' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;font-size:13px;font-weight:500}
+.tbl-tools .btn{height:38px;font-size:13px}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{text-align:left;font-size:12px;font-weight:500;color:var(--muted);padding:12px 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fcfcfb;white-space:nowrap}
+.tbl td{padding:14px 20px;border-bottom:1px solid var(--line);font-size:13px;white-space:nowrap}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tbody tr{cursor:pointer;transition:background .1s}
+.tbl tbody tr:hover{background:#fafaf8}
+.tbl .id{font-weight:600}
+.tbl .sub{font-size:12px;color:var(--muted);margin-top:2px}
+.st{font-size:12px;font-weight:600;border-radius:99px;padding:4px 10px;display:inline-flex;align-items:center;gap:6px}
+.st::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.st-New{background:var(--blue-soft);color:var(--blue)}
+.st-Contacted{background:var(--amber-soft);color:var(--amber)}
+.st-Paid{background:var(--accent-soft);color:#17924a}
+.st-Delivered{background:#eeeeec;color:var(--ink-2)}
+.st-Cancelled{background:var(--red-soft);color:var(--red)}
+.kebab{width:32px;height:32px;border-radius:9px;display:grid;place-items:center}
+.kebab:hover{background:var(--soft)}
+.tbl-foot{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.mcards{display:none}
+
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-weight:500;font-size:13px;opacity:0;transition:.2s;z-index:60;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%)}
+
+.view{display:none}.view.on{display:block}
+.mnav{display:none}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1180px){
+  .grid-kpi{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:1fr 1fr}
+  .grid-3 > :first-child{grid-column:span 2}
+}
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .side{display:none}
+  .main{padding:16px 14px calc(92px + env(safe-area-inset-bottom))}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .grid-3 > :first-child{grid-column:auto}
+  .me .txt,.search{display:none}
+  .top .brand{display:flex}
+  .head h1{font-size:23px}
+  .head .acts{margin-left:0;width:100%}
+  .tbl-wrap{display:none}
+  .mcards{display:grid;gap:0}
+  .mcard{display:flex;gap:12px;align-items:center;padding:14px 18px;border-top:1px solid var(--line)}
+  .mcard .ri-main{flex:1;min-width:0}
+  .mnav{display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));background:var(--ink);border-radius:18px;padding:6px;z-index:30;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+  .mnav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0;border-radius:13px;color:#a9a9b0;font-size:11px;font-weight:600;position:relative}
+  .mnav a.on{background:#2a2a30;color:#fff}
+  .mnav .badge{position:absolute;top:4px;right:calc(50% - 20px);background:var(--red);color:#fff;font-size:10px;border-radius:99px;padding:0 5px}
+}
+@media (min-width:901px){.top .brand{display:none}}
+@media (max-width:520px){
+  .grid-kpi{gap:10px}
+  .kpi{padding:14px}
+  .kpi .v{font-size:21px;margin:10px 0 4px}
+  .kpi .l{font-size:12px}
+  .kpi .l .k-ico{width:28px;height:28px}
+  .quick .btn{flex:1}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- Multi-page additions ---------- */
+.crumbs{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-bottom:8px;flex-wrap:wrap}
+.crumbs a:hover{color:var(--ink)}
+.crumbs .sep{opacity:.5}
+.head .title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.back{width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;flex:none}
+.back:hover{background:var(--soft)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:0 20px 14px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{height:34px;padding:0 13px;border-radius:99px;border:1px solid var(--line);background:#fff;font-weight:600;font-size:13px;color:var(--ink-2);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.tabs a:hover{background:var(--soft)}
+.tabs a.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tabs .c{font-size:11px;opacity:.65}
+.grid-kpi.three{grid-template-columns:repeat(3,1fr)}
+.detail{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;align-items:start}
+.detail .col{display:grid;gap:16px}
+.sec{padding:18px 20px}
+.sec h4{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:8px 0;font-size:13px;border-bottom:1px dashed var(--line)}
+.kv:last-child{border-bottom:0}
+.kv span:first-child{color:var(--muted)}
+.kv span:last-child{font-weight:600;text-align:right}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.steps div{font-size:11px;font-weight:600;color:var(--muted)}
+.steps div::before{content:"";display:block;height:6px;border-radius:9px;background:var(--line);margin-bottom:8px}
+.steps div.on{color:var(--ink)}
+.steps div.on::before{background:var(--ink)}
+.next-box{background:var(--soft);border-radius:14px;padding:14px 16px;font-size:13px;line-height:1.55;color:var(--ink-2);margin-bottom:14px}
+.status-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.status-btns button{height:40px;border-radius:10px;border:1px solid var(--line-2);font-weight:600;font-size:13px;background:#fff}
+.status-btns button:hover{background:var(--soft)}
+.status-btns button.cur{background:var(--ink);color:#fff;border-color:var(--ink)}
+.status-btns button.cancel{grid-column:span 4;color:var(--red)}
+.status-btns button.cancel.cur{background:var(--red);border-color:var(--red);color:#fff}
+.big-price{font-size:30px;font-weight:700;letter-spacing:-.035em;margin:2px 0 14px}
+.qrow{display:flex;align-items:center;gap:14px;padding:14px 20px;border-top:1px solid var(--line)}
+.qrow:first-child{border-top:0}
+.qrow .ri-main{flex:1;min-width:0}
+.qrow .ri-t{font-weight:600;font-size:13px}
+.qrow .ri-s{font-size:12px;color:var(--muted);margin-top:3px}
+.qrow .q-acts{display:flex;gap:8px;flex:none}
+.qrow .q-acts .btn{height:36px;font-size:12px}
+.qrow .amt{font-weight:700;font-size:14px;text-align:right;min-width:86px}
+.glance{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+.glance a{display:flex;align-items:center;gap:14px;padding:16px 18px;transition:.15s}
+.glance a:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(16,16,20,.06)}
+.glance .g-ico{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;flex:none}
+.glance .g-t{font-weight:600}
+.glance .g-s{font-size:12px;color:var(--muted);margin-top:3px}
+.glance .arrow{margin-left:auto;color:var(--muted)}
+.bars{padding:16px 20px 20px;display:grid;gap:12px}
+.bars .pipe-row{grid-template-columns:118px 1fr 52px}
+.set-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.set-row:last-child{border-bottom:0}
+.set-row .ri-main{flex:1;min-width:0}
+.set-row .ri-t{font-weight:600;font-size:13px}
+.set-row .ri-s{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5}
+.set-row .btn{height:36px;font-size:12px}
+.flow{display:grid;gap:10px}
+.flow div{display:flex;gap:12px;align-items:flex-start;font-size:13px;line-height:1.5;color:var(--ink-2)}
+.flow .st{flex:none;min-width:98px;justify-content:center}
+.sheet{position:fixed;left:12px;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px;z-index:31;box-shadow:0 18px 40px rgba(0,0,0,.16);transform:translateY(12px);opacity:0;pointer-events:none;transition:.18s}
+.sheet.on{transform:none;opacity:1;pointer-events:auto}
+.sheet a{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;font-weight:600}
+.sheet a:hover,.sheet a.on{background:var(--soft)}
+.sheet-scrim{position:fixed;inset:0;z-index:29;display:none}
+.sheet-scrim.on{display:block}
+.page-enter{animation:pe .25s ease}
+.grid-2 > *,.grid-3 > *{min-width:0}
+.src-row{display:grid;grid-template-columns:minmax(0,1fr) 1.1fr 44px;align-items:center;gap:10px;font-size:13px}
+.src-row .track{height:10px;background:var(--soft);border-radius:9px;overflow:hidden}
+.src-row .track i{display:block;height:100%;border-radius:9px}
+.src-row small{display:block;font-size:11px;color:#17924a;font-weight:600;margin-top:2px}
+.src-tags{display:grid;gap:8px;grid-template-columns:minmax(0,1fr)}
+.src-tags > div{display:flex;align-items:center;gap:10px;background:var(--soft);border-radius:12px;padding:10px 12px;font-size:12px}
+.src-tags .tl{flex:1;min-width:0}
+.src-tags code{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+.src-tags span{display:block;color:var(--muted);font-size:11px;margin-bottom:3px}
+.src-tags .btn{height:30px;font-size:12px;padding:0 10px}
+.skel{height:14px;border-radius:7px;background:linear-gradient(90deg,#f0f0ee,#f7f7f5,#f0f0ee);background-size:200% 100%;animation:sk 1.2s linear infinite}
+@keyframes sk{to{background-position:-200% 0}}
+@keyframes pe{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (max-width:1180px){.glance{grid-template-columns:1fr 1fr 1fr}.detail{grid-template-columns:1fr}}
+@media (max-width:900px){
+  .glance,.grid-kpi.three{grid-template-columns:1fr}
+  .grid-kpi.three .kpi:first-child{grid-column:auto}
+  .status-btns{grid-template-columns:1fr 1fr}
+  .status-btns button.cancel{grid-column:span 2}
+  .qrow{padding:14px 16px;flex-wrap:wrap}
+  .qrow .q-acts{width:100%}
+  .qrow .q-acts .btn{flex:1}
+  .head .acts .seg{width:100%;display:flex}.head .acts .seg button{flex:1}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= LOCK SCREEN ================= -->
+<section id="lock">
+  <form class="lock-card" id="lockForm" autocomplete="off">
+    <div class="brand"><div class="brand-mark">TB</div>Techbrothers</div>
+    <h1>Control Center</h1>
+    <p>Sign in to manage orders, payments and deliveries for your store.</p>
+    <div class="field">
+      <label for="pass">Seller passcode</label>
+      <input class="input" id="pass" type="password" placeholder="Enter your passcode" autocomplete="current-password" required>
+    </div>
+    <label style="display:flex;gap:8px;align-items:center;margin-top:14px;font-size:13px;color:var(--ink-2)"><input type="checkbox" id="keep" checked style="width:16px;height:16px;accent-color:#0e0e10">Keep me signed in on this device</label>
+    <div class="err" id="lockErr"></div>
+    <button class="btn btn-dark btn-block" id="lockBtn" type="submit">Unlock dashboard</button>
+    <a href="#" class="demo-link" id="demoBtn">Preview with sample data</a>
+  </form>
+</section>
+
+<!-- ================= APP ================= -->
+<div id="app">
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><div class="brand-mark">TB</div>Techbrothers</div>
+    <nav class="nav">
+      <div class="nav-label">Manage</div>
+      <a href="#/" data-nav="dashboard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Dashboard</a>
+      <a href="#/orders" data-nav="orders"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>Orders<span class="badge" data-badge="new" hidden></span></a>
+      <a href="#/payments" data-nav="payments"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h4"/></svg>Payments<span class="badge" data-badge="pay" hidden></span></a>
+      <a href="#/deliveries" data-nav="deliveries"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 4h14v12H1zM15 9h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>Deliveries<span class="badge" data-badge="del" hidden></span></a>
+      <a href="#/customers" data-nav="customers"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M17 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/></svg>Customers</a>
+      <div class="nav-label">Insights</div>
+      <a href="#/reports" data-nav="reports"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>Reports</a>
+      <a href="#/traffic" data-nav="traffic"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg>Traffic</a>
+      <div class="nav-label">Account</div>
+      <a href="#/settings" data-nav="settings"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a>
+      <a href="./" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9 4.5 4h15L21 9M3 9h18v11H3zM9 20v-6h6v6"/></svg>View live store</a>
+      <a href="#" data-lock><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Lock dashboard</a>
+    </nav>
+    <div class="side-card">
+      <span class="live"><span class="dot"></span>Live sync</span>
+      <div class="t">Always up to date</div>
+      <p>New orders appear automatically every 60 seconds. Last sync <span data-sync>—</span>.</p>
+      <button class="btn" data-refresh>Refresh now</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="top">
+      <a href="#/" class="brand"><div class="brand-mark">TB</div></a>
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input class="input" id="q" placeholder="Search orders, customers, phones…">
+      </label>
+      <div class="top-right">
+        <button class="icon-btn" data-refresh title="Refresh"><svg id="refreshIco" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg></button>
+        <a class="icon-btn" href="#/orders?status=open" title="Needs attention"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21a2 2 0 0 0 4 0"/></svg><span class="pip" id="bellPip" hidden></span></a>
+        <a class="me" href="#/settings"><div class="avatar">TB</div><div class="txt"><div class="n">Techbrothers</div><div class="s">Store owner</div></div></a>
+      </div>
+    </div>
+    <div class="demo-banner" id="demoBanner">You're viewing sample data. Lock the dashboard and enter your passcode to see real orders.</div>
+    <div id="page"></div>
+  </main>
+</div>
+
+<nav class="mnav">
+  <a href="#/" data-nav="dashboard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Home</a>
+  <a href="#/orders" data-nav="orders"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>Orders<span class="badge" data-badge="new" hidden></span></a>
+  <a href="#/payments" data-nav="payments"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg>Payments<span class="badge" data-badge="pay" hidden></span></a>
+  <a href="#/deliveries" data-nav="deliveries"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 4h14v12H1zM15 9h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>Deliver<span class="badge" data-badge="del" hidden></span></a>
+  <a href="#" id="moreBtn" data-nav="more"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>More</a>
+</nav>
+<div class="sheet-scrim" id="sheetScrim"></div>
+<div class="sheet" id="sheet">
+  <a href="#/customers" data-nav="customers"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/></svg>Customers</a>
+  <a href="#/reports" data-nav="reports"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>Reports</a>
+  <a href="#/traffic" data-nav="traffic"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg>Traffic</a>
+  <a href="#/settings" data-nav="settings"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg>Settings</a>
+  <a href="./" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9 4.5 4h15L21 9M3 9h18v11H3z"/></svg>View live store</a>
+  <a href="#" data-lock style="color:var(--red)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Lock dashboard</a>
+</div>
+<div class="toast" id="toast"></div>
+</div>
+<script>
+(() => {
+"use strict";
+/* ---------- Config: Techbrothers Supabase (public anon key; orders are only readable through the passcode-protected functions) ---------- */
+const SB_URL = "https://glbcwjorxshflfbbfwro.supabase.co";
+const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdsYmN3am9yeHNoZmxmYmJmd3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2NjQxMTAsImV4cCI6MjExMDI0MDExMH0.XkyDeJrUKli1krYPjxDFMYjwgB5WTMVjGqrhQw0aNFs";
+const STATUSES = ["New","Contacted","Paid","Delivered","Cancelled"];
+const FLOW = ["New","Contacted","Paid","Delivered"];
+const ROUTES = ["Pay by EFT","Pay by card","Ordered on WhatsApp","Asked to be contacted"];
+const ROUTE_LABEL = {"Pay by EFT":"EFT","Pay by card":"Card","Ordered on WhatsApp":"WhatsApp order","Asked to be contacted":"Order online"};
+const ROUTE_COLOR = {"Pay by EFT":"#0e0e10","Pay by card":"#9be3a6","Ordered on WhatsApp":"#7c5cff","Asked to be contacted":"#c9c9cf"};
+const STATUS_COLOR = {New:"#2f6fe4",Contacted:"#b9770e",Paid:"#17924a",Delivered:"#3b3b40",Cancelled:"#e5484d"};
+
+let orders = [], pass = null, demo = false, rangeDays = 30, timer = null, lastSync = null;
+
+/* ---------- Helpers ---------- */
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const zar = n => "R" + Math.round(n).toLocaleString("en-ZA").replace(/[, ]/g," ");
+const zarShort = n => n >= 1e6 ? "R" + (n/1e6).toFixed(1) + "m" : n >= 1e3 ? "R" + (n/1e3).toFixed(n >= 1e4 ? 0 : 1) + "k" : "R" + Math.round(n);
+const tz = {timeZone:"Africa/Johannesburg"};
+const fDate = d => new Date(d).toLocaleDateString("en-ZA",{...tz,day:"numeric",month:"short"});
+const fDateY = d => new Date(d).toLocaleDateString("en-ZA",{...tz,day:"numeric",month:"short",year:"numeric"});
+const fTime = d => new Date(d).toLocaleTimeString("en-ZA",{...tz,hour:"2-digit",minute:"2-digit"});
+const ago = d => { const m = (Date.now() - new Date(d)) / 6e4; if (m < 1) return "just now"; if (m < 60) return Math.floor(m) + " min ago"; if (m < 1440) return Math.floor(m/60) + " h ago"; const dd = Math.floor(m/1440); return dd + (dd === 1 ? " day ago" : " days ago"); };
+const gb = g => g >= 1024 ? (g/1024) + "TB" : g + "GB";
+const baseModel = m => String(m).replace(/\s*\([^)]*\)\s*$/, "");
+const colourOf = m => { const r = String(m).match(/\(([^)]+)\)\s*$/); return r ? r[1] : ""; };
+const phoneOf = o => o.model + " " + gb(o.storage_gb);
+const isRev = o => o.status === "Paid" || o.status === "Delivered";
+const isOpen = o => o.status === "New" || o.status === "Contacted" || o.status === "Paid";
+const isUnpaid = o => o.status === "New" || o.status === "Contacted";
+const waNum = n => { let d = String(n).replace(/\D/g,""); if (d.startsWith("0")) d = "27" + d.slice(1); return d; };
+const waLink = (o, msg) => "https://wa.me/" + waNum(o.whatsapp) + "?text=" + encodeURIComponent(msg || `Hi ${o.customer_name}, this is Techbrothers about your ${phoneOf(o)} order (#${o.id}).`);
+const plural = (n, w) => n + " " + w + (n === 1 ? "" : "s");
+const ss = { get(k){ try { return localStorage.getItem(k) || sessionStorage.getItem(k); } catch { return null; } }, set(k,v,keep){ try { (keep ? localStorage : sessionStorage).setItem(k,v); } catch {} }, del(k){ try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch {} } };
+const ICON = {
+  phone:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>',
+  back:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>',
+  next:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>',
+  dl:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>',
+  chat:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.8 7L3 21l2-6A8 8 0 1 1 21 12z"/></svg>',
+  call:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>',
+  card:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg>',
+  truck:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 4h14v12H1zM15 9h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>',
+  people:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M17 4a4 4 0 0 1 0 8"/></svg>',
+  arrow:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>',
+  trend:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg>',
+  bag:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18"/></svg>',
+  clock:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  check:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>',
+  kebab:'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>'
+};
+
+function toast(t){ const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove("on"), 2400); }
+
+/* ---------- Data ---------- */
+async function rpc(fn, body){
+  const r = await fetch(`${SB_URL}/rest/v1/rpc/${fn}`, { method:"POST", headers:{ "apikey":SB_KEY, "Authorization":"Bearer " + SB_KEY, "Content-Type":"application/json" }, body:JSON.stringify(body) });
+  const txt = await r.text();
+  if (!r.ok) { let m = "Something went wrong"; try { m = JSON.parse(txt).message || m; } catch {} const e = new Error(m); e.status = r.status; throw e; }
+  return txt ? JSON.parse(txt) : null;
+}
+async function load(silent){
+  if (demo) { route(); return; }
+  const ico = $("#refreshIco"); ico && ico.classList.add("spin");
+  try {
+    orders = await rpc("get_orders", { p_passcode: pass });
+    lastSync = new Date(); route(true);
+    if (!silent) toast("Orders up to date");
+  } catch (e) {
+    if (e.status && e.status < 500) lock("Your session expired. Enter your passcode again.");
+    else if (!silent) toast("Couldn't refresh: check your connection");
+  } finally { ico && ico.classList.remove("spin"); }
+}
+async function setStatus(id, status){
+  const o = orders.find(x => x.id === id); if (!o || o.status === status) return;
+  const prev = o.status; o.status = status; route(true);
+  if (demo) { toast(`Order #${id} marked ${status}`); return; }
+  try { await rpc("set_order_status", { p_passcode: pass, p_id: id, p_status: status }); toast(`Order #${id} marked ${status}`); }
+  catch (e) { o.status = prev; route(true); toast("Couldn't update: " + e.message); }
+}
+
+/* ---------- Auth ---------- */
+async function unlock(code){
+  const btn = $("#lockBtn"); btn.disabled = true; btn.textContent = "Checking…"; $("#lockErr").textContent = "";
+  try { orders = await rpc("get_orders", { p_passcode: code }); pass = code; demo = false; ss.set("tb_pass", code, $("#keep").checked); enterApp(); }
+  catch (e) { $("#lockErr").textContent = e.status && e.status < 500 ? "That passcode isn't right. Try again." : "Can't reach the server. Check your connection."; }
+  finally { btn.disabled = false; btn.textContent = "Unlock dashboard"; }
+}
+function enterApp(){
+  $("#lock").style.display = "none"; $("#app").style.display = "block";
+  $("#demoBanner").style.display = demo ? "block" : "none";
+  lastSync = new Date(); route(); clearInterval(timer); timer = setInterval(() => load(true), 60000);
+}
+function lock(msg){
+  pass = null; demo = false; orders = []; traffic = {}; ss.del("tb_pass"); clearInterval(timer); closeSheet();
+  $("#app").style.display = "none"; $("#lock").style.display = "grid"; $("#pass").value = ""; $("#lockErr").textContent = msg || "";
+}
+
+/* ---------- Router ---------- */
+function parseHash(){
+  const h = location.hash.replace(/^#/, "") || "/";
+  const [path, qs] = h.split("?");
+  const parts = path.split("/").filter(Boolean);
+  return { parts, params: new URLSearchParams(qs || "") };
+}
+const PAGES = { dashboard:pageDashboard, orders:pageOrders, payments:pagePayments, deliveries:pageDeliveries, customers:pageCustomers, reports:pageReports, traffic:pageTraffic, settings:pageSettings };
+const TITLES = { dashboard:"Dashboard", orders:"Orders", payments:"Payments", deliveries:"Deliveries", customers:"Customers", reports:"Reports", traffic:"Traffic", settings:"Settings" };
+let lastKey = "";
+function route(keepScroll){
+  if ($("#app").style.display !== "block") return;
+  const { parts, params } = parseHash();
+  const key = parts[0] || "dashboard";
+  const page = PAGES[key] || pageNotFound;
+  const el = $("#page");
+  const sameKey = location.hash === lastKey;
+  el.innerHTML = page(parts.slice(1), params);
+  if (!keepScroll || !sameKey) { el.classList.remove("page-enter"); void el.offsetWidth; el.classList.add("page-enter"); window.scrollTo(0, 0); }
+  lastKey = location.hash;
+  afterRender.forEach(fn => fn()); afterRender = [];
+  $$("[data-nav]").forEach(a => a.classList.toggle("on", a.dataset.nav === key));
+  document.title = (TITLES[key] || "Control Center") + " · Techbrothers";
+  // shared chrome
+  const n = orders.filter(o => o.status === "New").length, p = orders.filter(o => o.status === "Contacted").length, d = orders.filter(o => o.status === "Paid").length;
+  $$('[data-badge="new"]').forEach(b => { b.hidden = !n; b.textContent = n; });
+  $$('[data-badge="pay"]').forEach(b => { b.hidden = !p; b.textContent = p; });
+  $$('[data-badge="del"]').forEach(b => { b.hidden = !d; b.textContent = d; });
+  $("#bellPip").hidden = !actionsList().some(a => a.prio === "High");
+  $$("[data-sync]").forEach(s => s.textContent = lastSync ? fTime(lastSync) : "—");
+  const q = params.get("q") || ""; if (document.activeElement !== $("#q")) $("#q").value = q;
+  closeSheet();
+}
+let afterRender = [];
+window.addEventListener("hashchange", () => route());
+
+/* ---------- Shared building blocks ---------- */
+function crumbs(list){ return `<div class="crumbs">${list.map((c,i) => i < list.length - 1 ? `<a href="${c[1]}">${c[0]}</a><span class="sep">/</span>` : `<span>${c[0]}</span>`).join("")}</div>`; }
+function head({ crumb, title, sub, acts = "", back, pill = "" }){
+  return `<div class="head"><div>${crumb ? crumbs(crumb) : ""}<div class="title-row">${back ? `<a class="back" href="${back}" aria-label="Back">${ICON.back}</a>` : ""}<h1>${title}</h1>${pill}</div>${sub ? `<p>${sub}</p>` : ""}</div>${acts ? `<div class="acts">${acts}</div>` : ""}</div>`;
+}
+function rangeSeg(){ return `<div class="seg" data-range>${[7,30,90].map(d => `<button data-d="${d}" class="${d === rangeDays ? "on" : ""}">${d} days</button>`).join("")}</div>`; }
+function inRange(o, from, to){ const t = new Date(o.created_at).getTime(); return t >= from && t < to; }
+function periods(){ const now = Date.now(), span = rangeDays * 864e5; return { now, span, cur: orders.filter(o => inRange(o, now - span, now + 1)), prev: orders.filter(o => inRange(o, now - 2*span, now - span)) }; }
+function pct(a, b){ if (!b) return a ? null : 0; return ((a - b) / b) * 100; }
+function delta(p){ if (p === null) return `<span class="up">New</span> vs previous ${rangeDays} days`; const cls = p >= 0 ? "up" : "down"; return `<span class="${cls}">${p >= 0 ? "↑" : "↓"} ${Math.abs(p).toFixed(1)}%</span> vs previous ${rangeDays} days`; }
+function kpi({ label, value, d, icon, dark, tag = "", bar }){
+  return `<div class="card kpi${dark ? " dark" : ""}"><div class="l">${label}<span class="k-ico">${icon}</span></div><div class="v num">${value}</div><div class="d">${d}</div>${tag ? `<div class="tag">${tag}</div>` : ""}${bar !== undefined ? `<div class="bar"><i style="width:${bar}%"></i></div>` : ""}</div>`;
+}
+function metrics(){
+  const { cur, prev } = periods();
+  const live = a => a.filter(o => o.status !== "Cancelled");
+  const rev = a => a.filter(isRev).reduce((s,o) => s + o.price_zar, 0);
+  const paidC = cur.filter(isRev).length, paidP = prev.filter(isRev).length;
+  const m = { cur, prev, revC: rev(cur), revP: rev(prev), ordC: live(cur).length, ordP: live(prev).length, paidC, paidP };
+  m.aovC = paidC ? m.revC / paidC : 0; m.aovP = paidP ? m.revP / paidP : 0;
+  m.conv = m.ordC ? Math.round(paidC / m.ordC * 100) : 0;
+  m.unpaid = orders.filter(isUnpaid); m.unpaidVal = m.unpaid.reduce((s,o) => s + o.price_zar, 0);
+  m.toDeliver = orders.filter(o => o.status === "Paid");
+  return m;
+}
+function kpiRow(m){
+  return `<div class="grid-kpi">
+    ${kpi({ label:"Revenue", value:zar(m.revC), d:delta(pct(m.revC,m.revP)), icon:ICON.trend, dark:true })}
+    ${kpi({ label:"Orders", value:m.ordC, d:delta(pct(m.ordC,m.ordP)), icon:ICON.bag, tag:`<a href="#/orders?status=New" class="pill" style="background:var(--blue-soft);color:var(--blue)">${orders.filter(o=>o.status==="New").length} waiting for contact</a>` })}
+    ${kpi({ label:"Avg. order value", value:zar(m.aovC), d:delta(pct(m.aovC,m.aovP)), icon:ICON.phone, tag:`<span class="pill" style="background:var(--accent-soft);color:#17924a">${m.conv}% of orders paid</span>` })}
+    ${kpi({ label:"Awaiting payment", value:zar(m.unpaidVal), d:`${plural(m.unpaid.length,"unpaid order")} · ${m.toDeliver.length} to deliver`, icon:ICON.clock, bar:Math.min(100, m.unpaidVal / Math.max(1, m.unpaidVal + m.revC) * 100) })}
+  </div>`;
+}
+function chartCard(id, list){
+  const all = list.filter(o => o.status !== "Cancelled").reduce((s,o) => s + o.price_zar, 0), paid = list.filter(isRev).reduce((s,o) => s + o.price_zar, 0);
+  afterRender.push(() => drawChart($("#" + id), list));
+  return `<div class="card"><div class="card-h"><h3>Revenue over time</h3><div class="legend"><span><i style="background:var(--ink)"></i>Paid</span><span><i style="background:#c9c9cf"></i>Ordered</span></div></div>
+    <div class="chart-big"><b class="num">${zar(paid)}</b><span class="d" style="color:var(--muted)">paid of <b class="num" style="font-size:13px;color:var(--ink)">${zar(all)}</b> ordered</span></div>
+    <div class="chart-wrap" id="${id}"></div></div>`;
+}
+function drawChart(el, list){
+  if (!el) return;
+  const now = Date.now(), span = rangeDays * 864e5, step = rangeDays > 30 ? 7 : 1, buckets = Math.ceil(rangeDays / step);
+  const start = new Date(now - span); start.setHours(0,0,0,0);
+  const paid = Array(buckets).fill(0), all = Array(buckets).fill(0), labels = [];
+  for (let i = 0; i < buckets; i++) labels.push(new Date(start.getTime() + i * step * 864e5));
+  list.forEach(o => { const i = Math.min(buckets - 1, Math.floor((new Date(o.created_at) - start) / (step * 864e5))); if (i < 0) return; if (o.status !== "Cancelled") all[i] += o.price_zar; if (isRev(o)) paid[i] += o.price_zar; });
+  const W = Math.max(280, el.clientWidth - 24), H = 220, pl = 46, pr = 10, pt = 12, pb = 26;
+  const niceMax = Math.ceil(Math.max(1000, ...all) * 1.15 / 5000) * 5000 || 5000;
+  const x = i => pl + (buckets === 1 ? 0 : i * (W - pl - pr) / (buckets - 1)), y = v => pt + (H - pt - pb) * (1 - v / niceMax);
+  const path = arr => arr.map((v,i) => { if (!i) return `M${x(i)},${y(v)}`; const px = x(i-1), py = y(arr[i-1]), cx = (px + x(i)) / 2; return `C${cx},${py} ${cx},${y(v)} ${x(i)},${y(v)}`; }).join("");
+  let grid = "";
+  for (let g = 0; g <= 4; g++) { const v = niceMax * g / 4; grid += `<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="#ececea" ${g?'stroke-dasharray="3 4"':''}/><text x="${pl-8}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="#7a7a82">${zarShort(v)}</text>`; }
+  const every = Math.ceil(buckets / (W < 500 ? 4 : 7));
+  const xl = labels.map((d,i) => i % every === 0 ? `<text x="${x(i)}" y="${H-6}" text-anchor="middle" font-size="11" fill="#7a7a82">${fDate(d)}</text>` : "").join("");
+  el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Revenue chart">
+    <defs><linearGradient id="g_${el.id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e0e10" stop-opacity=".12"/><stop offset="1" stop-color="#0e0e10" stop-opacity="0"/></linearGradient></defs>
+    ${grid}${xl}
+    <path d="${path(all)}" fill="none" stroke="#c9c9cf" stroke-width="2" stroke-dasharray="5 4"/>
+    <path d="${path(paid)}L${x(buckets-1)},${y(0)}L${x(0)},${y(0)}Z" fill="url(#g_${el.id})"/>
+    <path d="${path(paid)}" fill="none" stroke="#0e0e10" stroke-width="2.2"/>
+    <line class="hl" y1="${pt}" y2="${H-pb}" stroke="#0e0e10" stroke-dasharray="3 3" opacity="0"/>
+    <circle class="hd" r="4.5" fill="#fff" stroke="#0e0e10" stroke-width="2" opacity="0"/>
+    <rect x="${pl}" y="0" width="${W-pl-pr}" height="${H}" fill="transparent" class="hit"/>
+  </svg><div class="tip"></div>`;
+  const hit = el.querySelector(".hit"), tip = el.querySelector(".tip"), hl = el.querySelector(".hl"), hd = el.querySelector(".hd");
+  const move = ev => {
+    const r = hit.getBoundingClientRect(), cx = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
+    const i = Math.max(0, Math.min(buckets - 1, Math.round(cx / r.width * (buckets - 1))));
+    hl.setAttribute("x1", x(i)); hl.setAttribute("x2", x(i)); hl.setAttribute("opacity", .5);
+    hd.setAttribute("cx", x(i)); hd.setAttribute("cy", y(paid[i])); hd.setAttribute("opacity", 1);
+    tip.innerHTML = `<div class="t">${step > 1 ? "Week of " : ""}${fDate(labels[i])}</div><div><i style="background:#0e0e10"></i>Paid <b class="num" style="margin-left:auto">${zar(paid[i])}</b></div><div><i style="background:#c9c9cf"></i>Ordered <b class="num" style="margin-left:auto">${zar(all[i])}</b></div>`;
+    tip.style.opacity = 1; const tx = x(i) + 175 > W ? x(i) - 160 : x(i) + 26; tip.style.left = tx + "px"; tip.style.top = Math.max(0, y(paid[i]) - 20) + "px";
+  };
+  const leave = () => { tip.style.opacity = 0; hl.setAttribute("opacity", 0); hd.setAttribute("opacity", 0); };
+  hit.addEventListener("mousemove", move); hit.addEventListener("touchmove", move, {passive:true}); hit.addEventListener("mouseleave", leave); hit.addEventListener("touchend", () => setTimeout(leave, 1500));
+}
+function actionsList(){
+  const out = [], hour = 36e5;
+  orders.forEach(o => {
+    const age = Date.now() - new Date(o.created_at);
+    if (o.status === "New") out.push({ o, prio: age > 2*hour ? "High" : "Medium", t: `Contact ${o.customer_name}`, s: `${phoneOf(o)} · ordered ${ago(o.created_at)}`, cta: "Contact", wa: true });
+    else if (o.status === "Contacted" && o.route === "Pay by EFT") out.push({ o, prio: age > 24*hour ? "High" : "Medium", t: `Check EFT from ${o.customer_name}`, s: `${zar(o.price_zar)} · ref TB-${o.id} · ${phoneOf(o)}`, cta: "Mark paid", next: "Paid" });
+    else if (o.status === "Contacted") out.push({ o, prio: "Low", t: `Awaiting payment · ${o.customer_name}`, s: `${zar(o.price_zar)} · ${ROUTE_LABEL[o.route] || o.route}`, cta: "Open" });
+    else if (o.status === "Paid") out.push({ o, prio: age > 48*hour ? "High" : "Medium", t: `Deliver ${phoneOf(o)}`, s: `To ${o.customer_name} · paid ${zar(o.price_zar)}`, cta: "Delivered", next: "Delivered" });
+  });
+  const rank = {High:0,Medium:1,Low:2};
+  return out.sort((a,b) => rank[a.prio] - rank[b.prio] || new Date(a.o.created_at) - new Date(b.o.created_at));
+}
+function actionCard(limit){
+  const list = actionsList();
+  return `<div class="card"><div class="card-h"><h3>Action required</h3><span class="pill prio-Low">${plural(list.length,"item")}</span><a href="#/orders?status=open" class="more">View all</a></div>
+    <div class="list">${list.length ? list.slice(0, limit).map(a => `
+      <div class="act"><span class="pill prio-${a.prio}">${a.prio}</span>
+        <a class="ri-main" href="#/orders/${a.o.id}"><div class="ri-t">${esc(a.t)}</div><div class="ri-s">${esc(a.s)}</div></a>
+        ${a.wa ? `<a class="btn btn-line" href="${waLink(a.o)}" target="_blank" rel="noopener" data-contacted="${a.o.id}">${a.cta}</a>`
+               : a.next ? `<button class="btn btn-line" data-set="${a.o.id}" data-status="${a.next}">${a.cta}</button>`
+               : `<a class="btn btn-line" href="#/orders/${a.o.id}">${a.cta}</a>`}
+      </div>`).join("") : `<div class="empty">You're all caught up. New orders will show up here.</div>`}</div></div>`;
+}
+function table(list, { foot = true } = {}){
+  if (!list.length) return `<div class="empty">No orders match. Try another filter or search.</div>`;
+  const rows = list.map(o => `<tr data-href="#/orders/${o.id}">
+    <td><div class="id">#${o.id}</div><div class="sub">${fDate(o.created_at)}, ${fTime(o.created_at)}</div></td>
+    <td><div style="font-weight:600">${esc(o.customer_name)}</div><div class="sub num">${esc(o.whatsapp)}</div></td>
+    <td><div>${esc(phoneOf(o))}</div><div class="sub">${esc(o.condition)}</div></td>
+    <td class="num" style="font-weight:600">${zar(o.price_zar)}</td>
+    <td>${esc(ROUTE_LABEL[o.route] || o.route)}</td>
+    <td><span class="st st-${o.status}">${o.status}</span></td>
+    <td><a class="kebab" href="#/orders/${o.id}" aria-label="Open order #${o.id}">${ICON.kebab}</a></td></tr>`).join("");
+  const cards = list.map(o => `<a class="mcard" href="#/orders/${o.id}">
+    <div style="width:40px;height:40px;border-radius:11px;background:var(--soft);display:grid;place-items:center;flex:none">${ICON.phone}</div>
+    <div class="ri-main"><div style="font-weight:600;font-size:13px">${esc(o.customer_name)} · <span style="color:var(--muted);font-weight:500">#${o.id}</span></div><div style="font-size:12px;color:var(--muted);margin-top:3px">${esc(phoneOf(o))} · ${ago(o.created_at)}</div></div>
+    <div style="text-align:right"><div class="num" style="font-weight:700;font-size:13px">${zar(o.price_zar)}</div><span class="st st-${o.status}" style="margin-top:5px">${o.status}</span></div></a>`).join("");
+  return `<div class="tbl-wrap" style="overflow-x:auto"><table class="tbl"><thead><tr><th>Order</th><th>Customer</th><th>Phone</th><th>Price</th><th>Payment</th><th>Status</th><th></th></tr></thead><tbody>${rows}</tbody></table></div><div class="mcards">${cards}</div>`
+    + (foot ? `<div class="tbl-foot"><span>${plural(list.length,"order")}</span><span class="num">Total ${zar(list.reduce((s,o)=>s+o.price_zar,0))}</span></div>` : "");
+}
+function qrow(o, acts, amtLabel){
+  return `<div class="qrow">
+    <div style="width:42px;height:42px;border-radius:12px;background:var(--soft);display:grid;place-items:center;flex:none">${ICON.phone}</div>
+    <a class="ri-main" href="#/orders/${o.id}"><div class="ri-t">${esc(o.customer_name)} · <span style="color:var(--muted);font-weight:500">#${o.id}</span></div><div class="ri-s">${esc(phoneOf(o))} · ${esc(ROUTE_LABEL[o.route] || o.route)} · ${amtLabel || ago(o.created_at)}</div></a>
+    <div class="amt num">${zar(o.price_zar)}</div>
+    <div class="q-acts">${acts}</div></div>`;
+}
+function bars(rows, color){
+  const max = Math.max(1, ...rows.map(r => r[1]));
+  return rows.map(r => `<div class="pipe-row"><span>${esc(r[0])}</span><div class="track"><i style="width:${r[1]/max*100}%;background:${r[2] || color}"></i></div><b class="num" style="text-align:right">${r[3] ?? r[1]}</b></div>`).join("");
+}
+function customers(){
+  const m = {};
+  orders.forEach(o => { const k = waNum(o.whatsapp); const c = m[k] = m[k] || { key:k, name:o.customer_name, wa:o.whatsapp, n:0, spent:0, last:o.created_at, firstAt:o.created_at, latest:o, list:[] };
+    c.n++; c.list.push(o); if (isRev(o)) c.spent += o.price_zar;
+    if (new Date(o.created_at) > new Date(c.last)) { c.last = o.created_at; c.name = o.customer_name; c.latest = o; }
+    if (new Date(o.created_at) < new Date(c.firstAt)) c.firstAt = o.created_at; });
+  return Object.values(m).sort((a,b) => b.n - a.n || b.spent - a.spent);
+}
+const ini = n => esc(String(n).split(/\s+/).map(w => w[0]).slice(0,2).join("").toUpperCase());
+function search(list){
+  const q = (parseHash().params.get("q") || "").trim().toLowerCase();
+  return !q ? list : list.filter(o => [o.id, o.customer_name, o.whatsapp, o.model, o.storage_gb + "gb", o.status, o.route].join(" ").toLowerCase().includes(q));
+}
+function link(path, params){ const p = new URLSearchParams(params); [...p.keys()].forEach(k => { if (!p.get(k) || p.get(k) === "all") p.delete(k); }); const s = p.toString(); return "#" + path + (s ? "?" + s : ""); }
+
+/* ================= PAGES ================= */
+
+/* ---- Dashboard ---- */
+function pageDashboard(){
+  const m = metrics();
+  const h = +new Date().toLocaleString("en-ZA",{...tz,hour:"numeric",hour12:false});
+  const greet = h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
+  const cust = customers(), repeat = cust.filter(c => c.n > 1).length;
+  const ePay = orders.filter(o => o.status === "Contacted" && o.route === "Pay by EFT").length;
+  return head({ title: greet, sub: "Here's what's happening with your store.", acts: rangeSeg() }) + `
+    <div class="quick">
+      <a class="btn btn-dark" href="#/orders?status=New">${ICON.call}Contact new orders</a>
+      <a class="btn btn-line" href="#/payments">Confirm payments</a>
+      <a class="btn btn-line" href="#/deliveries">Ready to deliver</a>
+      <a class="btn btn-line" href="#/reports">${ICON.trend}Reports</a>
+    </div>
+    ${kpiRow(m)}
+    <div class="glance">
+      <a class="card" href="#/payments"><div class="g-ico" style="background:var(--amber-soft);color:var(--amber)">${ICON.card}</div><div><div class="g-t">Payments</div><div class="g-s">${zar(m.unpaidVal)} outstanding · ${plural(ePay,"EFT")} to check</div></div><span class="arrow">${ICON.arrow}</span></a>
+      <a class="card" href="#/deliveries"><div class="g-ico" style="background:var(--accent-soft);color:#17924a">${ICON.truck}</div><div><div class="g-t">Deliveries</div><div class="g-s">${plural(m.toDeliver.length,"phone")} paid and waiting to ship</div></div><span class="arrow">${ICON.arrow}</span></a>
+      <a class="card" href="#/customers"><div class="g-ico" style="background:var(--blue-soft);color:var(--blue)">${ICON.people}</div><div><div class="g-t">Customers</div><div class="g-s">${plural(cust.length,"customer")} · ${repeat} repeat buyer${repeat===1?"":"s"}</div></div><span class="arrow">${ICON.arrow}</span></a>
+    </div>
+    <div class="grid-2">${chartCard("dashChart", m.cur)}${actionCard(5)}</div>
+    <div class="card"><div class="tbl-tools"><h3>Latest orders</h3><a href="#/orders" class="btn btn-line">See all orders</a></div>${table(orders.slice(0, 6), { foot:false })}</div>`;
+}
+
+/* ---- Orders list ---- */
+function pageOrders(rest, params){
+  if (rest[0]) return pageOrderDetail(+rest[0]);
+  const status = params.get("status") || "all", rt = params.get("route") || "all", q = params.get("q") || "";
+  const base = search(orders).filter(o => rt === "all" || o.route === rt);
+  const list = base.filter(o => status === "all" || (status === "open" ? isOpen(o) : o.status === status));
+  const count = s => s === "all" ? base.length : s === "open" ? base.filter(isOpen).length : base.filter(o => o.status === s).length;
+  const tabs = [["all","All"],["open","Needs action"],...STATUSES.map(s => [s,s])];
+  afterRender.push(() => {
+    $("#fRoute").addEventListener("change", e => location.hash = link("/orders", { status, route: e.target.value, q }));
+    $("#exportOrders").addEventListener("click", () => exportOrders(list));
+  });
+  return head({ crumb:[["Dashboard","#/"],["Orders"]], title:"Orders", sub: q ? `Results for “${esc(q)}”` : "Every order from the store. Tap one to manage it." , acts:`<a class="btn btn-line" href="#/payments">Payments</a><a class="btn btn-line" href="#/deliveries">Deliveries</a>` }) + `
+    <div class="card">
+      <div class="tbl-tools"><h3>${status === "all" ? "All orders" : status === "open" ? "Needs action" : status + " orders"}</h3>
+        <select class="select" id="fRoute"><option value="all">All payment types</option>${ROUTES.map(r => `<option value="${r}" ${r === rt ? "selected" : ""}>${ROUTE_LABEL[r]}</option>`).join("")}</select>
+        <button class="btn btn-line" id="exportOrders">${ICON.dl}Export</button></div>
+      <div class="tabs">${tabs.map(([k,l]) => `<a href="${link("/orders", { status:k, route:rt, q })}" class="${k === status ? "on" : ""}">${l}<span class="c">${count(k)}</span></a>`).join("")}</div>
+      ${table(list)}
+    </div>`;
+}
+
+/* ---- Order detail ---- */
+function pageOrderDetail(id){
+  const o = orders.find(x => x.id === id);
+  if (!o) return head({ crumb:[["Dashboard","#/"],["Orders","#/orders"],["Not found"]], title:"Order not found", back:"#/orders" }) + `<div class="card empty">This order doesn't exist or was removed.</div>`;
+  const idx = orders.indexOf(o), newer = orders[idx - 1], older = orders[idx + 1];
+  const stepIdx = FLOW.indexOf(o.status);
+  const cust = customers().find(c => c.key === waNum(o.whatsapp));
+  const nextTxt = {New:"Contact the customer to confirm the order and how they will pay.",Contacted:o.route === "Pay by EFT" ? `Check the store's Standard Bank account for this EFT (look for reference TB-${o.id} or the customer's name), then mark it paid.` : "Waiting for payment. Mark it paid once the money is in.",Paid:"Package the phone and arrange nationwide delivery, then mark it delivered.",Delivered:"This order is complete. Nothing else to do.",Cancelled:"This order was cancelled. Change the status if it was cancelled by mistake."}[o.status];
+  const nextBtn = {New:`<a class="btn btn-dark" style="width:100%;height:46px" href="${waLink(o)}" target="_blank" rel="noopener" data-contacted="${o.id}">${ICON.chat}Contact customer</a>`,Contacted:`<button class="btn btn-dark" style="width:100%;height:46px" data-set="${o.id}" data-status="Paid">${ICON.check}Mark as paid</button>`,Paid:`<button class="btn btn-dark" style="width:100%;height:46px" data-set="${o.id}" data-status="Delivered">${ICON.truck}Mark as delivered</button>`}[o.status] || "";
+  afterRender.push(() => $("#copyBtn").addEventListener("click", () => {
+    const t = `Order #${o.id}\n${o.customer_name} · ${o.whatsapp}\n${phoneOf(o)} (${o.condition})\n${zar(o.price_zar)} · ${ROUTE_LABEL[o.route]||o.route}\nStatus: ${o.status}`;
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => toast("Order details copied")).catch(() => toast("Copy isn't supported on this device"));
+  }));
+  return head({ crumb:[["Dashboard","#/"],["Orders","#/orders"],["#" + o.id]], back:"#/orders", title:"Order #" + o.id, pill:`<span class="st st-${o.status}">${o.status}</span>`,
+    sub: "Placed " + new Date(o.created_at).toLocaleString("en-ZA",{...tz,dateStyle:"medium",timeStyle:"short"}) + " · " + ago(o.created_at),
+    acts: `${newer ? `<a class="btn btn-line" href="#/orders/${newer.id}" title="Newer order">${ICON.back}Newer</a>` : ""}${older ? `<a class="btn btn-line" href="#/orders/${older.id}" title="Older order">Older${ICON.next}</a>` : ""}<button class="btn btn-line" id="copyBtn">Copy details</button>` }) + `
+    <div class="detail">
+      <div class="col">
+        <div class="card sec"><h4>Order progress</h4>
+          <div class="steps">${FLOW.map((s,i) => `<div class="${o.status !== "Cancelled" && i <= stepIdx ? "on" : ""}">${s}</div>`).join("")}</div>
+          <div class="next-box"><b>Next step:</b> ${nextTxt}</div>
+          ${nextBtn ? `<div style="margin-bottom:14px">${nextBtn}</div>` : ""}
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Or set the status yourself</div>
+          <div class="status-btns">${STATUSES.map(s => `<button data-set="${o.id}" data-status="${s}" class="${s === "Cancelled" ? "cancel " : ""}${o.status === s ? "cur" : ""}">${s === "Cancelled" ? "Cancel order" : s}</button>`).join("")}</div>
+        </div>
+        <div class="card sec"><h4>Phone ordered</h4>
+          <div style="display:flex;gap:14px;align-items:center;margin-bottom:6px"><div style="width:52px;height:52px;border-radius:14px;background:var(--soft);display:grid;place-items:center">${ICON.phone}</div><div><div style="font-weight:700;font-size:16px">${esc(o.model)}</div><div style="color:var(--muted);font-size:13px;margin-top:2px">${gb(o.storage_gb)} · ${esc(o.condition)}</div></div></div>
+          <div class="kv"><span>Model</span><span>${esc(o.model)}</span></div>
+          <div class="kv"><span>Storage</span><span>${gb(o.storage_gb)}</span></div>
+          <div class="kv"><span>Condition</span><span>${esc(o.condition)}</span></div>
+          ${colourOf(o.model) ? `<div class="kv"><span>Colour</span><span>${esc(colourOf(o.model))}</span></div>` : ""}
+        </div>
+      </div>
+      <div class="col">
+        <div class="card sec"><h4>Payment</h4>
+          <div class="big-price num">${zar(o.price_zar)}</div>
+          <div class="kv"><span>Method</span><span>${esc(ROUTE_LABEL[o.route] || o.route)}</span></div>
+          ${o.route === "Pay by EFT" ? `<div class="kv"><span>Bank reference</span><span class="num">TB-${o.id}</span></div>` : ""}
+          <div class="kv"><span>Payment status</span><span style="color:${isRev(o) ? "#17924a" : o.status === "Cancelled" ? "var(--red)" : "var(--amber)"}">${isRev(o) ? "Paid" : o.status === "Cancelled" ? "Cancelled" : "Not paid yet"}</span></div>
+          <a class="btn btn-line" style="width:100%;margin-top:12px" href="#/payments">Open payments</a>
+        </div>
+        <div class="card sec"><h4>Customer</h4>
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:6px"><div class="avatar">${ini(o.customer_name)}</div><div><div style="font-weight:700">${esc(o.customer_name)}</div><div style="color:var(--muted);font-size:13px" class="num">${esc(o.whatsapp)}</div></div></div>
+          <div class="kv"><span>Orders from this customer</span><span>${cust ? cust.n : 1}</span></div>
+          <div class="kv"><span>Total paid</span><span class="num">${zar(cust ? cust.spent : 0)}</span></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+            <a class="btn btn-accent" href="${waLink(o)}" target="_blank" rel="noopener" data-contacted="${o.id}">${ICON.chat}Message</a>
+            <a class="btn btn-line" href="tel:${esc(o.whatsapp)}">${ICON.call}Call</a>
+          </div>
+          <a class="btn btn-line" style="width:100%;margin-top:8px" href="#/customers/${waNum(o.whatsapp)}">View customer profile</a>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ---- Payments ---- */
+function pagePayments(rest, params){
+  const tab = params.get("tab") || "awaiting";
+  const m = metrics();
+  const eft = m.unpaid.filter(o => o.route === "Pay by EFT" && o.status === "Contacted");
+  const collected = m.cur.filter(isRev);
+  const collectedVal = collected.reduce((s,o) => s + o.price_zar, 0);
+  const awaitingSorted = [...m.unpaid].sort((a,b) => (b.route === "Pay by EFT") - (a.route === "Pay by EFT") || new Date(a.created_at) - new Date(b.created_at));
+  const split = {}; collected.forEach(o => split[o.route] = (split[o.route] || 0) + o.price_zar);
+  const list = tab === "collected"
+    ? (collected.length ? collected.map(o => qrow(o, `<a class="btn btn-line" href="#/orders/${o.id}">View</a>`, "paid " + fDate(o.created_at))).join("") : `<div class="empty">No payments collected in the last ${rangeDays} days.</div>`)
+    : (awaitingSorted.length ? awaitingSorted.map(o => qrow(o,
+        `${o.status === "New" ? `<a class="btn btn-line" href="${waLink(o)}" target="_blank" rel="noopener" data-contacted="${o.id}">Contact</a>` : ""}<button class="btn btn-dark" data-set="${o.id}" data-status="Paid">${ICON.check}Mark paid</button>`,
+        (o.status === "New" ? "not contacted · " : "") + ago(o.created_at))).join("") : `<div class="empty">No unpaid orders. Everything has been paid.</div>`);
+  return head({ crumb:[["Dashboard","#/"],["Payments"]], title:"Payments", sub:"Confirm money that came in and see what's still outstanding.", acts: rangeSeg() }) + `
+    <div class="grid-kpi three">
+      ${kpi({ label:"Outstanding", value:zar(m.unpaidVal), d:plural(m.unpaid.length,"unpaid order"), icon:ICON.clock, dark:true })}
+      ${kpi({ label:"EFTs to check", value:eft.length, d:`${zar(eft.reduce((s,o)=>s+o.price_zar,0))} to match in the bank account`, icon:ICON.card })}
+      ${kpi({ label:"Collected", value:zar(collectedVal), d:delta(pct(m.revC, m.revP)), icon:ICON.trend })}
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="tbl-tools"><h3>${tab === "collected" ? "Collected payments" : "Awaiting payment"}</h3></div>
+        <div class="tabs"><a href="#/payments" class="${tab !== "collected" ? "on" : ""}">Awaiting<span class="c">${m.unpaid.length}</span></a><a href="#/payments?tab=collected" class="${tab === "collected" ? "on" : ""}">Collected<span class="c">${collected.length}</span></a></div>
+        <div>${list}</div>
+      </div>
+      <div style="display:grid;gap:16px;align-content:start">
+        <div class="card"><div class="card-h"><h3>Collected by method</h3></div><div class="bars">${Object.keys(split).length ? bars(ROUTES.filter(r => split[r]).map(r => [ROUTE_LABEL[r], split[r], ROUTE_COLOR[r], zarShort(split[r])])) : `<div class="empty">Nothing collected yet in this period.</div>`}</div></div>
+        <div class="card sec"><h4>How to confirm an EFT</h4><div class="flow">
+          <div><span class="st st-Contacted">1. Check</span>Open the store's Standard Bank app and look for the amount and the reference. EFT orders use <b>TB-</b> followed by the order number, e.g. TB-1060.</div>
+          <div><span class="st st-Paid">2. Confirm</span>Tap “Mark paid” on the order. It moves to Deliveries.</div>
+          <div><span class="st st-Delivered">3. Ship</span>Send the phone and mark it delivered.</div>
+        </div></div>
+      </div>
+    </div>`;
+}
+
+/* ---- Deliveries ---- */
+function pageDeliveries(rest, params){
+  const tab = params.get("tab") || "ready";
+  const ready = orders.filter(o => o.status === "Paid").sort((a,b) => new Date(a.created_at) - new Date(b.created_at));
+  const done = orders.filter(o => o.status === "Delivered");
+  const { cur } = periods(); const doneCur = cur.filter(o => o.status === "Delivered");
+  const oldest = ready[0] ? Math.floor((Date.now() - new Date(ready[0].created_at)) / 864e5) : 0;
+  const list = tab === "done"
+    ? (done.length ? done.slice(0, 40).map(o => qrow(o, `<a class="btn btn-line" href="#/orders/${o.id}">View</a>`, "ordered " + fDate(o.created_at))).join("") : `<div class="empty">No delivered orders yet.</div>`)
+    : (ready.length ? ready.map(o => qrow(o, `<a class="btn btn-line" href="${waLink(o, `Hi ${o.customer_name}, your ${phoneOf(o)} (order #${o.id}) is on its way from Techbrothers.`)}" target="_blank" rel="noopener">${ICON.chat}Notify</a><button class="btn btn-dark" data-set="${o.id}" data-status="Delivered">${ICON.check}Delivered</button>`, "waiting " + ago(o.created_at).replace(" ago",""))).join("") : `<div class="empty">Nothing to deliver right now. Paid orders will show up here.</div>`);
+  return head({ crumb:[["Dashboard","#/"],["Deliveries"]], title:"Deliveries", sub:"Paid orders waiting to be shipped, oldest first." }) + `
+    <div class="grid-kpi three">
+      ${kpi({ label:"Ready to deliver", value:ready.length, d:`${zar(ready.reduce((s,o)=>s+o.price_zar,0))} in paid phones`, icon:ICON.truck, dark:true })}
+      ${kpi({ label:"Longest wait", value: ready.length ? plural(oldest,"day") : "—", d: ready.length ? `Order #${ready[0].id} · ${esc(ready[0].customer_name)}` : "No one is waiting", icon:ICON.clock })}
+      ${kpi({ label:`Delivered · ${rangeDays} days`, value:doneCur.length, d:`${plural(done.length,"delivery")} in total`, icon:ICON.check })}
+    </div>
+    <div class="card">
+      <div class="tbl-tools"><h3>${tab === "done" ? "Delivered" : "Ready to deliver"}</h3></div>
+      <div class="tabs"><a href="#/deliveries" class="${tab !== "done" ? "on" : ""}">Ready<span class="c">${ready.length}</span></a><a href="#/deliveries?tab=done" class="${tab === "done" ? "on" : ""}">Delivered<span class="c">${done.length}</span></a></div>
+      <div>${list}</div>
+    </div>`;
+}
+
+/* ---- Customers ---- */
+function pageCustomers(rest, params){
+  if (rest[0]) return pageCustomerProfile(rest[0]);
+  const q = (params.get("q") || "").trim().toLowerCase();
+  const list = customers().filter(c => !q || (c.name + " " + c.wa).toLowerCase().includes(q));
+  afterRender.push(() => $("#exportCustomers").addEventListener("click", exportCustomers));
+  const body = !list.length ? `<div class="empty">No customers yet.</div>` : `<div class="tbl-wrap" style="overflow-x:auto"><table class="tbl"><thead><tr><th>Customer</th><th>Phone number</th><th>Orders</th><th>Total paid</th><th>Last order</th><th></th></tr></thead><tbody>${list.map(c => `<tr data-href="#/customers/${c.key}">
+      <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="width:32px;height:32px;font-size:12px">${ini(c.name)}</div><div><div style="font-weight:600">${esc(c.name)}</div>${c.n > 1 ? `<div class="sub" style="color:#17924a;font-weight:600">Repeat buyer</div>` : ""}</div></div></td>
+      <td class="num">${esc(c.wa)}</td><td class="num">${c.n}</td><td class="num" style="font-weight:600">${zar(c.spent)}</td><td>${ago(c.last)}</td>
+      <td><a class="kebab" href="#/customers/${c.key}" aria-label="Open customer">${ICON.next}</a></td></tr>`).join("")}</tbody></table></div>
+    <div class="mcards">${list.map(c => `<a class="mcard" href="#/customers/${c.key}"><div class="avatar" style="width:38px;height:38px;font-size:12px">${ini(c.name)}</div><div class="ri-main"><div style="font-weight:600;font-size:13px">${esc(c.name)}${c.n > 1 ? ` <span style="color:#17924a;font-size:11px">· Repeat</span>` : ""}</div><div style="font-size:12px;color:var(--muted);margin-top:3px">${plural(c.n,"order")} · ${zar(c.spent)} paid</div></div><span style="color:var(--muted)">${ICON.next}</span></a>`).join("")}</div>`;
+  return head({ crumb:[["Dashboard","#/"],["Customers"]], title:"Customers", sub:"Everyone who has ordered, grouped by phone number. Repeat buyers first.", acts:`<button class="btn btn-line" id="exportCustomers">${ICON.dl}Export list</button>` }) + `
+    <div class="grid-kpi three">
+      ${kpi({ label:"Customers", value:customers().length, d:"Unique phone numbers", icon:ICON.people, dark:true })}
+      ${kpi({ label:"Repeat buyers", value:customers().filter(c => c.n > 1).length, d:"Ordered more than once", icon:ICON.bag })}
+      ${kpi({ label:"Avg. spend per customer", value:zar(customers().reduce((s,c)=>s+c.spent,0) / Math.max(1, customers().filter(c=>c.spent).length)), d:"Paying customers only", icon:ICON.trend })}
+    </div>
+    <div class="card">${body}</div>`;
+}
+function pageCustomerProfile(key){
+  const c = customers().find(x => x.key === key);
+  if (!c) return head({ crumb:[["Dashboard","#/"],["Customers","#/customers"],["Not found"]], title:"Customer not found", back:"#/customers" }) + `<div class="card empty">No orders from this number.</div>`;
+  const list = [...c.list].sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+  return head({ crumb:[["Dashboard","#/"],["Customers","#/customers"],[esc(c.name)]], back:"#/customers", title:esc(c.name), pill: c.n > 1 ? `<span class="pill" style="background:var(--accent-soft);color:#17924a">Repeat buyer</span>` : "", sub:`<span class="num">${esc(c.wa)}</span> · customer since ${fDateY(c.firstAt)}`,
+    acts:`<a class="btn btn-accent" href="${waLink(c.latest, `Hi ${c.name}, it's Techbrothers. `)}" target="_blank" rel="noopener">${ICON.chat}Message</a><a class="btn btn-line" href="tel:${esc(c.wa)}">${ICON.call}Call</a>` }) + `
+    <div class="grid-kpi three">
+      ${kpi({ label:"Orders", value:c.n, d:`${list.filter(isOpen).length} still open`, icon:ICON.bag, dark:true })}
+      ${kpi({ label:"Total paid", value:zar(c.spent), d:`${list.filter(isRev).length} paid order${list.filter(isRev).length===1?"":"s"}`, icon:ICON.trend })}
+      ${kpi({ label:"Last order", value:fDate(c.last), d:ago(c.last), icon:ICON.clock })}
+    </div>
+    <div class="card"><div class="tbl-tools"><h3>Order history</h3></div>${table(list)}</div>`;
+}
+
+/* ---- Reports ---- */
+function pageReports(){
+  const m = metrics(), live = m.cur.filter(o => o.status !== "Cancelled");
+  const models = {}; live.forEach(o => { const k = baseModel(o.model); models[k] = models[k] || [k,0,0]; models[k][1]++; models[k][2] += o.price_zar; });
+  const top = Object.values(models).sort((a,b) => b[2] - a[2]).slice(0, 6);
+  const split = {}; live.forEach(o => split[o.route] = (split[o.route] || 0) + o.price_zar);
+  const tot = Object.values(split).reduce((a,b) => a+b, 0), R = 54, C = 2*Math.PI*R; let off = 0;
+  const segs = Object.entries(split).sort((a,b) => b[1]-a[1]);
+  const arcs = segs.map(([k,v]) => { const len = v/tot*C; const s = `<circle r="${R}" cx="70" cy="70" fill="none" stroke="${ROUTE_COLOR[k]||"#999"}" stroke-width="18" stroke-dasharray="${Math.max(0,len-2)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"/>`; off += len; return s; }).join("");
+  const st = {}; STATUSES.forEach(s => st[s] = 0); m.cur.forEach(o => st[o.status]++);
+  const cond = {}; live.forEach(o => cond[o.condition] = (cond[o.condition] || 0) + 1);
+  const stor = {}; live.forEach(o => stor[o.storage_gb] = (stor[o.storage_gb] || 0) + 1);
+  afterRender.push(() => $("#exportReport").addEventListener("click", () => exportOrders(m.cur)));
+  return head({ crumb:[["Dashboard","#/"],["Reports"]], title:"Reports", sub:`How the store performed over the last ${rangeDays} days.`, acts: rangeSeg() + `<button class="btn btn-line" id="exportReport">${ICON.dl}Export period</button>` }) + `
+    ${kpiRow(m)}
+    ${chartCard("repChart", m.cur)}
+    <div class="grid-3" style="margin-top:16px">
+      <div class="card"><div class="card-h"><h3>Best-selling phones</h3></div><div class="list">${top.length ? top.map(t => `<div class="row-item"><div class="ri-ico">${ICON.phone}</div><div class="ri-main"><div class="ri-t">${esc(t[0])}</div><div class="ri-s">${plural(t[1],"order")}</div></div><div class="ri-r"><b class="num">${zar(t[2])}</b></div></div>`).join("") : `<div class="empty">No orders in this period yet.</div>`}</div></div>
+      <div class="card"><div class="card-h"><h3>How customers pay</h3></div><div class="donut-wrap">${tot ? `<svg width="140" height="140" viewBox="0 0 140 140"><circle r="${R}" cx="70" cy="70" fill="none" stroke="#f3f3f1" stroke-width="18"/>${arcs}<text x="70" y="68" text-anchor="middle" font-size="16" font-weight="700" fill="#0e0e10">${zarShort(tot)}</text><text x="70" y="85" text-anchor="middle" font-size="11" fill="#7a7a82">ordered</text></svg>
+        <div class="donut-legend">${segs.map(([k,v]) => `<div><i style="background:${ROUTE_COLOR[k]||"#999"}"></i>${esc(ROUTE_LABEL[k]||k)}<span class="num">${Math.round(v/tot*100)}% · ${zarShort(v)}</span></div>`).join("")}</div>` : `<div class="empty" style="width:100%">No payments in this period yet.</div>`}</div></div>
+      <div class="card"><div class="card-h"><h3>Order status</h3></div><div class="pipe">${bars(STATUSES.map(s => [s, st[s], STATUS_COLOR[s]]))}</div></div>
+    </div>
+    <div class="grid-2" style="grid-template-columns:1fr 1fr">
+      <div class="card"><div class="card-h"><h3>New vs pre-owned</h3></div><div class="pipe">${Object.keys(cond).length ? bars(Object.entries(cond).map(([k,v]) => [k === "Certified pre-owned" ? "Pre-owned" : k, v, k === "Brand new" ? "#0e0e10" : "#9be3a6"])) : `<div class="empty">No data yet.</div>`}</div></div>
+      <div class="card"><div class="card-h"><h3>Popular storage sizes</h3></div><div class="pipe">${Object.keys(stor).length ? bars(Object.entries(stor).sort((a,b) => a[0]-b[0]).map(([k,v]) => [gb(+k), v, "#7c5cff"])) : `<div class="empty">No data yet.</div>`}</div></div>
+    </div>`;
+}
+
+/* ---- Settings ---- */
+function pageSettings(){
+  afterRender.push(() => {
+    $("#setExportO").addEventListener("click", () => exportOrders(orders));
+    $("#setExportC").addEventListener("click", exportCustomers);
+  });
+  return head({ crumb:[["Dashboard","#/"],["Settings"]], title:"Settings", sub:"Store details, your data and security." }) + `
+    <div class="detail">
+      <div class="col">
+        <div class="card sec"><h4>Store</h4>
+          <div class="set-row"><div class="avatar" style="width:44px;height:44px;border-radius:13px;background:var(--ink);color:#fff">TB</div><div class="ri-main"><div class="ri-t">Techbrothers</div><div class="ri-s">iPhone store · nationwide delivery</div></div></div>
+          <div class="set-row"><div class="ri-main"><div class="ri-t">Live store</div><div class="ri-s">The public shop your customers order from.</div></div><a class="btn btn-line" href="./" target="_blank" rel="noopener">Open store</a></div>
+          <div class="set-row"><div class="ri-main"><div class="ri-t">Domain</div><div class="ri-s">techbrothers.co.za is live.</div></div><span class="pill" style="background:var(--accent-soft);color:#17924a">Live</span></div>
+          <div class="set-row"><div class="ri-main"><div class="ri-t">Card payments</div><div class="ri-s">Card payments are processed by PayFast. Check payouts in your PayFast account.</div></div></div>
+        </div>
+        <div class="card sec"><h4>How an order moves</h4><div class="flow">
+          <div><span class="st st-New">New</span>The customer placed the order on the store. Contact them.</div>
+          <div><span class="st st-Contacted">Contacted</span>You've spoken to them and are waiting for payment.</div>
+          <div><span class="st st-Paid">Paid</span>The money is in. The phone is ready to send.</div>
+          <div><span class="st st-Delivered">Delivered</span>The customer has the phone. Order complete.</div>
+          <div><span class="st st-Cancelled">Cancelled</span>The order won't go ahead.</div>
+        </div></div>
+      </div>
+      <div class="col">
+        <div class="card sec"><h4>Your data</h4>
+          <div class="set-row"><div class="ri-main"><div class="ri-t">All orders</div><div class="ri-s">${plural(orders.length,"order")} as a spreadsheet that opens in Excel.</div></div><button class="btn btn-line" id="setExportO">${ICON.dl}Download</button></div>
+          <div class="set-row"><div class="ri-main"><div class="ri-t">Customer list</div><div class="ri-s">Names, numbers and spend, useful for promos.</div></div><button class="btn btn-line" id="setExportC">${ICON.dl}Download</button></div>
+          <div class="set-row"><div class="ri-main"><div class="ri-t">Sync</div><div class="ri-s">Refreshes every 60 seconds. Last sync <span data-sync>—</span>.</div></div><button class="btn btn-line" data-refresh>Refresh</button></div>
+        </div>
+        <div class="card sec"><h4>Security</h4>
+          <div class="set-row"><div class="ri-main"><div class="ri-t">Lock dashboard</div><div class="ri-s">Signs you out on this device. You'll need your passcode to come back.</div></div><button class="btn btn-dark" data-lock>Lock</button></div>
+          <div class="set-row"><div class="ri-main"><div class="ri-t">Change passcode</div><div class="ri-s">Ask your developer at Nuvon to change it. It's never stored in this page.</div></div></div>
+          <div class="set-row"><div class="ri-main"><div class="ri-t">Session</div><div class="ri-s">You stay signed in on this device until you lock the dashboard (if “Keep me signed in” was ticked).</div></div><span class="pill" style="background:var(--accent-soft);color:#17924a">${demo ? "Preview" : "Secure"}</span></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ---- Traffic (visits logged by the store itself; see log_visit in Supabase) ---- */
+const STORE_URL = "https://techbrothers.co.za";
+const SRC_COLOR = {Instagram:"#d6409f",Facebook:"#2f6fe4",WhatsApp:"#17924a",Google:"#b9770e","Google Ads":"#b9770e",TikTok:"#0e0e10",Direct:"#c9c9cf"};
+const SRC_TAGS = [["ig-bio","Instagram bio link"],["ig-story","Instagram stories"],["fb-ad","Facebook / Instagram ads"],["wa-status","WhatsApp status"],["tiktok","TikTok bio"]];
+let traffic = {}, trafficBusy = false, trafficErr = "";
+async function loadTraffic(days, force){
+  if (trafficBusy || (traffic[days] && !force)) return;
+  trafficBusy = true; trafficErr = "";
+  try { traffic[days] = demo ? sampleTraffic(days) : await rpc("get_traffic", { p_passcode: pass, p_days: days }); traffic[days]._at = Date.now(); }
+  catch (e) { trafficErr = e.status && e.status < 500 ? "Your session expired. Lock and sign in again." : "Couldn't load traffic. Check your connection."; }
+  finally { trafficBusy = false; if (parseHash().parts[0] === "traffic") route(true); }
+}
+function srcLabel(s){ return s === "Direct" ? "Direct / shared link" : s; }
+function pageTraffic(){
+  const days = rangeDays, t = traffic[days];
+  if (!t || Date.now() - (t._at || 0) > 60000) setTimeout(() => loadTraffic(days, !!t), 0);
+  const top = head({ crumb:[["Dashboard","#/"],["Traffic"]], title:"Traffic", sub:"Who visits the store and where they came from. Bots are filtered out.", acts: rangeSeg() });
+  if (!t) return top + (trafficErr ? `<div class="card empty">${esc(trafficErr)}</div>` : `<div class="grid-kpi">${[0,1,2,3].map(() => `<div class="card kpi"><div class="skel" style="width:50%"></div><div class="skel" style="width:70%;height:26px;margin:16px 0 8px"></div><div class="skel" style="width:40%"></div></div>`).join("")}</div>`);
+  const conv = t.visitors ? (t.orders / t.visitors * 100) : 0;
+  const best = (t.sources || []).filter(s => s.visitors).sort((a,b) => b.visitors - a.visitors)[0];
+  afterRender.push(() => drawVisits($("#visitChart"), t.daily || [], days));
+  const srcRows = (t.sources || []).filter(s => s.visitors || s.orders).sort((a,b) => b.visitors - a.visitors || b.orders - a.orders)
+    ;
+  const srcMax = Math.max(1, ...srcRows.map(s => s.visitors));
+  const srcHTML = srcRows.map(s => `<div class="src-row"><span>${esc(srcLabel(s.source))}${s.orders ? `<small>${plural(s.orders,"order")}</small>` : ""}</span><div class="track"><i style="width:${s.visitors/srcMax*100}%;background:${SRC_COLOR[s.source] || "#7c5cff"}"></i></div><b class="num" style="text-align:right">${s.visitors}</b></div>`).join("");
+  const tagRows = SRC_TAGS.map(([tag, label]) => `<div><div class="tl"><span>${label}</span><code>…co.za/?src=${tag}</code></div><button class="btn btn-line" data-copy="${STORE_URL}/?src=${tag}">Copy</button></div>`).join("");
+  return top + `
+    <div class="grid-kpi">
+      ${kpi({ label:"Visitors", value:t.visitors, d:`${plural(t.visits,"visit")} in the last ${days} days`, icon:ICON.people, dark:true })}
+      ${kpi({ label:"Visitors today", value:t.today, d: best ? `Top source: ${esc(srcLabel(best.source))}` : "No visits yet", icon:ICON.clock })}
+      ${kpi({ label:"Phones opened", value:t.views, d: t.visitors ? `${(t.views / t.visitors).toFixed(1)} per visitor` : "—", icon:ICON.phone })}
+      ${kpi({ label:"Orders from visits", value:t.orders, d:`${conv.toFixed(1)}% of visitors ordered`, icon:ICON.bag, tag:`<span class="pill" style="background:var(--accent-soft);color:#17924a">Conversion ${conv.toFixed(1)}%</span>` })}
+    </div>
+    <div class="grid-2">
+      <div class="card"><div class="card-h"><h3>Visitors per day</h3><div class="legend"><span><i style="background:var(--ink)"></i>Visitors</span><span><i style="background:var(--accent)"></i>Orders</span></div></div><div class="chart-wrap" id="visitChart"></div></div>
+      <div class="card"><div class="card-h"><h3>Where visitors come from</h3></div><div class="bars">${srcRows.length ? srcHTML : `<div class="empty">No visits yet. They'll show here as soon as people open the store.</div>`}</div></div>
+    </div>
+    <div class="grid-3">
+      <div class="card"><div class="card-h"><h3>Most viewed phones</h3></div><div class="list">${(t.products || []).length ? t.products.map(p => `<div class="row-item"><div class="ri-ico">${ICON.phone}</div><div class="ri-main"><div class="ri-t">${esc(p.model)}</div><div class="ri-s">opened ${plural(p.n,"time")}</div></div></div>`).join("") : `<div class="empty">No phones opened yet.</div>`}</div></div>
+      <div class="card"><div class="card-h"><h3>Devices</h3></div><div class="pipe">${(t.devices || []).length ? bars(t.devices.map(d => [d.device, d.n, d.device === "Phone" ? "#0e0e10" : "#9be3a6"])) : `<div class="empty">No data yet.</div>`}</div>
+        <div class="card-h" style="padding-top:4px"><h3>Sites that sent visitors</h3></div><div class="list">${(t.referrers || []).length ? t.referrers.map(r => `<div class="row-item" style="padding:8px 12px"><div class="ri-main"><div class="ri-t">${esc(r.ref_host)}</div></div><div class="ri-r"><b class="num">${r.n}</b></div></div>`).join("") : `<div class="empty" style="padding:14px">None yet.</div>`}</div></div>
+      <div class="card sec"><h4>Track your links</h4>
+        <p style="font-size:13px;color:var(--ink-2);line-height:1.55;margin-bottom:12px">When you share the store, use a tagged link so you can see which post or ad brought each visitor and order. Links from WhatsApp chats often show as “Direct”, so tag those too.</p>
+        <div class="src-tags">${tagRows}</div>
+        <p style="font-size:12px;color:var(--muted);line-height:1.5;margin-top:12px">Make your own: add <b>?src=</b> and any short name, e.g. <span class="num" style="white-space:nowrap">?src=promo-dec</span>.</p>
+      </div>
+    </div>`;
+}
+function drawVisits(el, daily, days){
+  if (!el) return;
+  const fmt = d => d.toLocaleDateString("en-CA", tz), map = {}; daily.forEach(r => map[r.dt] = r);
+  const pts = []; for (let i = days - 1; i >= 0; i--) { const d = new Date(Date.now() - i * 864e5), k = fmt(d); pts.push({ d, v: map[k] ? map[k].visitors : 0, o: map[k] ? map[k].orders : 0 }); }
+  const W = Math.max(280, el.clientWidth - 24), H = 200, pl = 34, pr = 8, pt = 12, pb = 26, n = pts.length;
+  const max = Math.max(4, ...pts.map(p => p.v)), niceMax = Math.ceil(max * 1.15 / 4) * 4;
+  const bw = (W - pl - pr) / n, y = v => pt + (H - pt - pb) * (1 - v / niceMax);
+  let g = ""; for (let i = 0; i <= 4; i++) { const v = niceMax * i / 4; g += `<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="#ececea" ${i?'stroke-dasharray="3 4"':''}/><text x="${pl-6}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="#7a7a82">${Math.round(v)}</text>`; }
+  const every = Math.ceil(n / (W < 500 ? 4 : 7));
+  const barsSvg = pts.map((p,i) => { const x = pl + i * bw + bw * .18, w = Math.max(2, bw * .64);
+    return `<rect x="${x}" y="${y(p.v)}" width="${w}" height="${Math.max(0, y(0) - y(p.v))}" rx="${Math.min(4, w/2)}" fill="#0e0e10"/>${p.o ? `<circle cx="${x + w/2}" cy="${y(p.v) - 7}" r="3.5" fill="#9be3a6" stroke="#0f5a22" stroke-width="1"/>` : ""}${i % every === 0 ? `<text x="${x + w/2}" y="${H-6}" text-anchor="middle" font-size="11" fill="#7a7a82">${fDate(p.d)}</text>` : ""}`; }).join("");
+  el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Visitors per day">${g}${barsSvg}<rect x="${pl}" y="0" width="${W-pl-pr}" height="${H}" fill="transparent" class="hit"/></svg><div class="tip"></div>`;
+  const hit = el.querySelector(".hit"), tip = el.querySelector(".tip");
+  const move = ev => { const r = hit.getBoundingClientRect(), cx = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left, i = Math.max(0, Math.min(n - 1, Math.floor(cx / r.width * n))), p = pts[i];
+    tip.innerHTML = `<div class="t">${fDate(p.d)}</div><div><i style="background:#0e0e10"></i>Visitors <b class="num" style="margin-left:auto">${p.v}</b></div><div><i style="background:#9be3a6"></i>Orders <b class="num" style="margin-left:auto">${p.o}</b></div>`;
+    tip.style.opacity = 1; const tx = pl + i * bw; tip.style.left = (tx + 150 > W ? tx - 130 : tx + 20) + "px"; tip.style.top = Math.max(0, y(p.v) - 30) + "px"; };
+  const leave = () => tip.style.opacity = 0;
+  hit.addEventListener("mousemove", move); hit.addEventListener("touchmove", move, {passive:true}); hit.addEventListener("mouseleave", leave); hit.addEventListener("touchend", () => setTimeout(leave, 1500));
+}
+function sampleTraffic(days){
+  const daily = []; let seed = days; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  for (let i = days - 1; i >= 0; i--) daily.push({ dt: new Date(Date.now() - i * 864e5).toLocaleDateString("en-CA", tz), visitors: Math.round(20 + rnd() * 70), orders: rnd() < .45 ? 1 + Math.floor(rnd() * 2) : 0 });
+  const visitors = daily.reduce((s,d) => s + d.visitors, 0), orders = daily.reduce((s,d) => s + d.orders, 0);
+  const sp = [["Instagram",.46],["Direct",.24],["WhatsApp",.12],["Facebook",.1],["Google",.05],["fb-ad",.03]];
+  return { days, visitors, visits: Math.round(visitors * 1.3), views: Math.round(visitors * 2.4), orders, today: daily[daily.length-1].visitors,
+    sources: sp.map(([s,f]) => ({ source:s, visitors: Math.round(visitors * f), orders: Math.round(orders * f) })),
+    daily, devices:[{device:"Phone",n:Math.round(visitors*.86)},{device:"Computer",n:Math.round(visitors*.12)},{device:"Tablet",n:Math.round(visitors*.02)}],
+    products:[["iPhone 13 128GB",.5],["iPhone 15 Pro 128GB",.4],["iPhone 16 Pro Max 128GB",.35],["iPhone 12 64GB",.3],["iPhone 11 64GB",.25]].map(([m,f]) => ({ model:m, n:Math.round(visitors*f) })),
+    referrers:[{ref_host:"l.instagram.com",n:Math.round(visitors*.4)},{ref_host:"m.facebook.com",n:Math.round(visitors*.1)},{ref_host:"google.com",n:Math.round(visitors*.05)}] };
+}
+
+function pageNotFound(){ return head({ title:"Page not found", back:"#/" }) + `<div class="card empty">That page doesn't exist. <a href="#/" style="text-decoration:underline">Go to the dashboard</a></div>`; }
+
+/* ---------- Export (CSV opens in Excel) ---------- */
+function download(name, rows){
+  const csv = "﻿" + rows.map(r => r.map(v => { const s = String(v ?? ""); return /[",\n;]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s; }).join(",")).join("\r\n");
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], {type:"text/csv;charset=utf-8"})); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  toast("Downloaded " + name);
+}
+const stamp = () => new Date().toLocaleDateString("en-CA", tz);
+function exportOrders(list){
+  download(`techbrothers-orders-${stamp()}.csv`, [["Order #","Date","Time","Customer","Phone number","Model","Storage (GB)","Condition","Price (R)","Payment","Status"],
+    ...list.map(o => [o.id, new Date(o.created_at).toLocaleDateString("en-CA",tz), fTime(o.created_at), o.customer_name, o.whatsapp, o.model, o.storage_gb, o.condition, o.price_zar, ROUTE_LABEL[o.route] || o.route, o.status])]);
+}
+function exportCustomers(){ download(`techbrothers-customers-${stamp()}.csv`, [["Customer","Phone number","Orders","Total paid (R)","Last order"], ...customers().map(c => [c.name, c.wa, c.n, c.spent, new Date(c.last).toLocaleDateString("en-CA",tz)])]); }
+
+/* ---------- Events ---------- */
+function openSheet(){ $("#sheet").classList.add("on"); $("#sheetScrim").classList.add("on"); }
+function closeSheet(){ $("#sheet").classList.remove("on"); $("#sheetScrim").classList.remove("on"); }
+document.addEventListener("click", e => {
+  const c = e.target.closest("[data-contacted]");
+  if (c) { const id = +c.dataset.contacted, o = orders.find(x => x.id === id); if (o && o.status === "New") setTimeout(() => setStatus(id, "Contacted"), 400); return; }
+  const s = e.target.closest("[data-set]"); if (s) { e.preventDefault(); setStatus(+s.dataset.set, s.dataset.status); return; }
+  const r = e.target.closest("[data-range] button"); if (r) { rangeDays = +r.dataset.d; route(true); return; }
+  const cp = e.target.closest("[data-copy]"); if (cp) { (navigator.clipboard ? navigator.clipboard.writeText(cp.dataset.copy) : Promise.reject()).then(() => toast("Link copied")).catch(() => toast(cp.dataset.copy)); return; }
+  if (e.target.closest("[data-refresh]")) { if (parseHash().parts[0] === "traffic") loadTraffic(rangeDays, true); load(false); return; }
+  if (e.target.closest("[data-lock]")) { e.preventDefault(); lock(); return; }
+  if (e.target.closest("#moreBtn")) { e.preventDefault(); $("#sheet").classList.contains("on") ? closeSheet() : openSheet(); return; }
+  const tr = e.target.closest("tr[data-href]"); if (tr && !e.target.closest("a,button")) { location.hash = tr.dataset.href; }
+});
+$("#sheetScrim").addEventListener("click", closeSheet);
+let qT; $("#q").addEventListener("input", e => { clearTimeout(qT); qT = setTimeout(() => {
+  const v = e.target.value.trim(), { parts, params } = parseHash(), onCust = parts[0] === "customers" && !parts[1];
+  location.hash = onCust ? link("/customers", { q:v }) : link("/orders", { status: parts[0] === "orders" && !parts[1] ? params.get("status") || "all" : "all", route: params.get("route") || "all", q:v });
+}, 250); });
+document.addEventListener("keydown", e => { if ((e.metaKey || e.ctrlKey) && e.key === "k") { e.preventDefault(); $("#q").focus(); } if (e.key === "Escape") closeSheet(); });
+let rT; window.addEventListener("resize", () => { clearTimeout(rT); rT = setTimeout(() => route(true), 200); });
+document.addEventListener("visibilitychange", () => { if (!document.hidden && pass) load(true); });
+$("#lockForm").addEventListener("submit", e => { e.preventDefault(); const v = $("#pass").value.trim(); if (v) unlock(v); });
+$("#demoBtn").addEventListener("click", e => { e.preventDefault(); demo = true; pass = null; orders = sample(); traffic = {}; enterApp(); });
+
+/* ---------- Sample data (preview only, never saved) ---------- */
+function sample(){
+  const names = ["Thabo Mokoena","Lerato Dlamini","Sipho Nkosi","Ayesha Patel","Johan van Wyk","Naledi Khumalo","Kagiso Molefe","Zanele Mthembu","Pieter Botha","Refilwe Sithole","Mpho Radebe","Chloe Adams","Bongani Zulu","Tumi Mahlangu"];
+  const nums = names.map((_, i) => "08" + String(31234567 + i * 7654321).slice(0, 8));
+  const phones = [["iPhone 16 Pro Max",256,21999],["iPhone 16 Pro",128,17999],["iPhone 15 Pro Max",256,16499],["iPhone 15",128,11499],["iPhone 14 Pro",128,10999],["iPhone 13",128,7499],["iPhone 17 Pro Max",256,28999],["iPhone 16",128,13999],["iPhone 15 Pro",512,17499]];
+  const routes = ["Pay by EFT","Pay by EFT","Pay by card","Ordered on WhatsApp","Asked to be contacted"];
+  let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const out = [];
+  for (let i = 0; i < 64; i++) {
+    const age = Math.pow(rnd(), 1.4) * 80 * 864e5, p = phones[Math.floor(rnd()*phones.length)], d = age / 864e5, ni = Math.floor(rnd()*names.length);
+    const status = d < .15 ? "New" : d < 1.5 ? (rnd() < .5 ? "New" : "Contacted") : d < 4 ? ["Contacted","Paid","Paid"][Math.floor(rnd()*3)] : rnd() < .1 ? "Cancelled" : rnd() < .85 ? "Delivered" : "Paid";
+    out.push({ created_at: new Date(Date.now() - age).toISOString(), customer_name: names[ni], whatsapp: nums[ni], model: p[0], storage_gb: p[1], condition: rnd() < .35 ? "Brand new" : "Certified pre-owned", price_zar: p[2], route: routes[Math.floor(rnd()*routes.length)], status });
+  }
+  return out.sort((a,b) => new Date(b.created_at) - new Date(a.created_at)).map((o,i,a) => ({ id: 1000 + a.length - i, ...o }));
+}
+
+/* ---------- Boot ---------- */
+const saved = ss.get("tb_pass");
+if (saved) { pass = saved; rpc("get_orders", { p_passcode: saved }).then(d => { orders = d; enterApp(); }).catch(() => lock()); }
+})();
+</script>
+</body>
+</html>

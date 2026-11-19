@@ -853,6 +853,56 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
   // Orders database (Supabase). This key is the public one and is safe to ship in the page.
   var SB_URL = 'https://glbcwjorxshflfbbfwro.supabase.co';
   var SB_KEY = 'sb_publishable_agAyRf_uzDNaORFl5wvmXQ_C6rARV4k';
+
+  /* ---------- Visit tracking (own Supabase, no cookies, no personal data) ----------
+     Logs: a visit (once per browser tab session), each phone opened, and each order placed,
+     with where the visitor came from. Add ?src=name to links you share, e.g.
+     techbrothers.co.za/?src=fb-ad  or  ?src=ig-bio  — that name shows as the source. */
+  var TRK = (function(){
+    var ok = !(navigator.webdriver || /bot|crawl|spider|slurp|preview|facebookexternalhit|lighthouse|headless/i.test(navigator.userAgent));
+    var store = function(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(_){ return null; } };
+    var sess = function(k, v){ try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch(_){ return null; } };
+    var vid = store('tb_vid');
+    if (!vid){ vid = (Date.now().toString(36) + Math.random().toString(36).slice(2, 12)); store('tb_vid', vid); }
+    var refHost = '';
+    try { if (document.referrer) refHost = new URL(document.referrer).hostname.replace(/^www\./, ''); } catch(_){}
+    if (refHost === location.hostname.replace(/^www\./, '')) refHost = '';
+    var q = new URLSearchParams(location.search);
+    var tag = (q.get('src') || q.get('utm_source') || '').trim().slice(0, 40);
+    var fromRef = function(h){
+      if (!h) return '';
+      if (/instagram/.test(h)) return 'Instagram';
+      if (/facebook|fb\.com|fb\.me/.test(h)) return 'Facebook';
+      if (/whatsapp|wa\.me/.test(h)) return 'WhatsApp';
+      if (/google\./.test(h)) return 'Google';
+      if (/tiktok/.test(h)) return 'TikTok';
+      if (/(^|\.)t\.co$|twitter|x\.com/.test(h)) return 'X';
+      if (/bing|yahoo|duckduckgo/.test(h)) return 'Search (other)';
+      return h;
+    };
+    var src = sess('tb_src');
+    if (!src){
+      src = tag || (q.get('fbclid') ? 'Facebook' : q.get('gclid') ? 'Google Ads' : '') || fromRef(refHost) || 'Direct';
+      sess('tb_src', src);
+    }
+    var dev = /iPad|Tablet/i.test(navigator.userAgent) ? 'Tablet' : /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'Phone' : 'Computer';
+    function send(ev, model, orderNo){
+      if (!ok) return;
+      try {
+        fetch(SB_URL + '/rest/v1/rpc/log_visit', {
+          method:'POST', keepalive:true,
+          headers:{'apikey':SB_KEY, 'Authorization':'Bearer ' + SB_KEY, 'Content-Type':'application/json'},
+          body: JSON.stringify({p_visitor:vid, p_event:ev, p_source:src, p_ref:refHost || null, p_path:location.pathname, p_device:dev, p_model:model || null, p_order:orderNo || null})
+        }).catch(function(){});
+      } catch(_){}
+    }
+    if (!sess('tb_visit')){ sess('tb_visit', '1'); send('visit'); }
+    var lastView = '';
+    return {
+      view: function(model){ if (!model || model === lastView) return; lastView = model; var seen = (sess('tb_seen') || '|'); if (seen.indexOf('|' + model + '|') > -1) return; sess('tb_seen', seen + model + '|'); send('view', model); },
+      order: function(model, no){ send('order', model, no); }
+    };
+  })();
   // pre = certified pre-owned price, neu = brand new price (leave out if not offered)
   // f = colour of the drawn phone; img = optional real photo, e.g. img:'img/iphone-13-pro.png'
   var LIST = [
@@ -1189,7 +1239,7 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
     if (!state.pay) setHash(state.open ? idOf(state.open.i, state.open.cond) : '');
   }
   function toShop(){ $('shop').scrollIntoView(); }
-  function openOrder(i, c){ clearPay(); state.open = {i:i, cond:c}; state.cond = c; render(); toShop(); }
+  function openOrder(i, c){ clearPay(); state.open = {i:i, cond:c}; state.cond = c; render(); toShop(); TRK.view(LIST[i].m + ' ' + LIST[i].gb + 'GB'); }
   function setHash(h){ try { history.replaceState(null, '', h ? '#' + h : location.pathname + location.search); } catch(_){} }
 
   function fromHash(){
@@ -1234,6 +1284,7 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
       return r.json().then(function(j){ if (!r.ok) throw new Error((j && j.message) || r.status); return j; });
     }).then(function(no){
       clearTimeout(timer);
+      TRK.order(e.m + ' ' + e.gb + 'GB', +no > 0 ? +no : null);
       if (viaWA){ msg.textContent = 'Order ' + no + ' saved. Opening your chat with a representative…'; lock(false); location.href = waLink(chat(no)); }
       else if (viaEFT){ showPay(+no > 0 ? +no : null); }
       else { state.done = {no: +no > 0 ? +no : null, m:model, gb:e.gb, cond:COND[c].lower, price:e[c], name:name, num:num}; render(); toShop(); }
