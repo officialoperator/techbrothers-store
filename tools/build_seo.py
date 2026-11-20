@@ -133,7 +133,7 @@ body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;back
 a{color:inherit}
 img{max-width:100%;display:block}
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-.head{position:sticky;top:0;z-index:5;background:rgba(242,242,240,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.head{position:sticky;top:0;z-index:5;background:rgba(242,242,240,.98);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .head .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
 .head img{height:40px;width:auto}
 .head nav{display:flex;align-items:center;gap:22px;font-size:14px;font-weight:600}
@@ -197,10 +197,18 @@ details p{margin-top:8px;color:var(--soft)}
 @media (max-width:560px){
   section.card{padding:18px;border-radius:20px}
   th.c,td.c{display:none}
-  th,td{padding:12px 4px}
-  td.p{font-size:16px}
+  table,tbody{display:block}
+  thead{display:none}
+  tbody tr{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;row-gap:4px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+  tbody td{display:block;padding:0;border:0;min-width:0}
+  tbody td:first-child{grid-column:1;grid-row:1}
+  tbody td.p{grid-column:1;font-size:17px}
+  td.pre::before,td.neu::before{display:inline-block;min-width:78px;font-family:Inter,sans-serif;font-size:13px;font-weight:500;color:var(--muted)}
+  td.pre::before{content:"Pre-owned"}
+  td.neu::before{content:"New"}
+  tbody td.o{grid-column:2;grid-row:1/span 3;align-self:center}
   .save{display:table;margin:4px 0 0}
-  td.o a{padding:0 14px;min-height:38px}
+  td.o a{padding:0 18px;min-height:42px}
 }
 """
 
@@ -428,8 +436,8 @@ def prices_page():
     for M in MODELS:
         rows += (f'<tr><td><a href="/{M["slug"]}/"><b>{esc(M["m"])}</b></a><br><span style="font-size:13px;color:var(--muted)">'
                  f'{" / ".join(str(g) + "GB" for g in M["storages"])}</span></td>'
-                 f'<td class="p">{money(M["pre"]) if M["pre"] else "&mdash;"}</td>'
-                 f'<td class="p">{money(M["neu"]) if M["neu"] else "&mdash;"}</td>'
+                 f'<td class="p pre">{money(M["pre"]) if M["pre"] else "&mdash;"}</td>'
+                 f'<td class="p neu">{money(M["neu"]) if M["neu"] else "&mdash;"}</td>'
                  f'<td class="o"><a href="/{M["slug"]}/">View</a></td></tr>')
     schema = [{"@context": "https://schema.org", "@type": "ItemList", "name": "iPhone prices at " + BRAND,
                "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": f"{SITE}/{M['slug']}/", "name": M["m"]}

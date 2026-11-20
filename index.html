@@ -261,7 +261,7 @@ body{background:var(--ground)}
 .h2{font-weight:600;letter-spacing:-.04em}
 .u span{border-bottom:0;padding:0}
 .strip{font-size:13px;padding:8px 20px}
-.head{position:sticky;top:0;z-index:30;background:rgba(242,242,240,.82);-webkit-backdrop-filter:saturate(1.6) blur(16px);backdrop-filter:saturate(1.6) blur(16px);border-bottom:1px solid rgba(0,0,0,.06)}
+.head{position:sticky;top:0;z-index:30;background:rgba(242,242,240,.97);-webkit-backdrop-filter:saturate(1.6) blur(16px);backdrop-filter:saturate(1.6) blur(16px);border-bottom:1px solid rgba(0,0,0,.06)}
 .head .wrap{padding-block:8px}
 .brand img{display:block;height:42px;width:auto}
 .nav .link{font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
@@ -489,7 +489,7 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
 .card>.card-hit{flex:1 0 auto}
 /* 4/5. buttons stay on one line */
 .end .pill{white-space:nowrap}
-.thanks .pill{white-space:nowrap}
+.thanks .pill{white-space:normal;max-width:100%;box-sizing:border-box}
 /* 7. phones: "Brand new phones" sits with "Certified pre-owned" in the hero */
 @media (max-width:900px){
   .hx{grid-template-areas:"t" "c" "l" "r2" "r" "v"}
@@ -1340,7 +1340,7 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
   // Thank-you block with the buyer's warranty period and the policy download
   function thanksHTML(cond){
     var neu = /brand new/i.test(cond);
-    return '<div class="thanks"><h3>Thank you for your purchase</h3>' +
+    return '<div class="thanks"><h3>Thank you for your order</h3>' +
       '<p>Your warranty: <b>' + (neu ? '6-month limited warranty (brand new)' : '30-day limited warranty (pre-owned)') + '</b>. Please read the full Warranty and Returns policy, and keep it with your order number as proof of purchase.</p>' +
       (POLICY ? '<a class="pill gold" href="' + esc(POLICY) + '" download>Download Warranty &amp; Returns (PDF)</a>' : '') + '</div>';
   }
@@ -1378,8 +1378,30 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
     if (!state.pay) setHash(state.open ? idOf(state.open.i, state.open.cond) : '');
   }
   function toShop(){ $('shop').scrollIntoView(); }
-  function openOrder(i, c){ clearPay(); state.open = {i:i, cond:c}; state.cond = c; render(); toShop(); TRK.view(LIST[i].m + ' ' + LIST[i].gb + 'GB'); }
-  function setHash(h){ try { history.replaceState(null, '', h ? '#' + h : location.pathname + location.search); } catch(_){} }
+  function openOrder(i, c){ if (!state.open && !state.pay && !state.done) state.homeY = window.pageYOffset; clearPay(); state.open = {i:i, cond:c}; state.cond = c; render(); toShop(); TRK.view(LIST[i].m + ' ' + LIST[i].gb + 'GB'); }
+  function setHash(h){
+    var cur = decodeURIComponent((location.hash || '').slice(1)).toLowerCase();
+    if (cur === h) return;
+    try {
+      if (h && !(history.state && history.state.tb)) history.pushState({tb:1}, '', '#' + h);    // home -> phone: new step, so the phone's Back returns to the store
+      else if (!h && history.state && history.state.tb) { skipPop = true; history.back(); }   // "All phones" / logo: undo that step so history stays clean
+      else history.replaceState(history.state, '', h ? '#' + h : location.pathname + location.search);
+    } catch(_){}
+  }
+  var skipPop = false;
+  try { history.scrollRestoration = 'manual'; } catch(_){}
+  // Back to the home page list, at the spot the customer left it
+  function goHome(){
+    var y = state.homeY;
+    clearPay(); state.open = null; render();
+    if (typeof y === 'number') requestAnimationFrame(function(){ window.scrollTo(0, y); });
+    else toShop();
+    state.homeY = null;
+  }
+  window.addEventListener('popstate', function(){
+    if (skipPop){ skipPop = false; return; }
+    if (!location.hash && (state.open || state.pay || state.done)) goHome();   // phone's Back gesture / button
+  });
 
   function fromHash(){
     var h = decodeURIComponent((location.hash || '').slice(1)).toLowerCase();
@@ -1499,7 +1521,7 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
     else if (d.pickCond){ state.open.cond = d.pickCond; state.cond = d.pickCond; render(); }
     else if (d.pickI){ state.open.i = +d.pickI; render(); }
     else if (d.order){ placeOrder(d.order); }
-    else if ('back' in d){ clearPay(); state.open = null; render(); toShop(); }
+    else if ('back' in d){ goHome(); }
     else if (d.share){ share(d.share, t); }
     else if ('shareCopy' in d){ copyLink(storeURL(), function(ok){ $('share-msg').textContent = ok ? 'Store link copied. Paste it anywhere.' : storeURL(); }); }
   });
@@ -1507,6 +1529,11 @@ a:hover>.circ,a.circ:hover,.b-side a.circ:hover{transform:rotate(45deg)}
     if (ev.target.name in state.form) state.form[ev.target.name] = ev.target.value;
   });
   window.addEventListener('hashchange', fromHash);
+  // Logo: from a phone or the payment page, go back to the store's home page (top)
+  document.querySelector('.brand').addEventListener('click', function(ev){
+    if (!(state.open || state.pay || state.done)) return;
+    ev.preventDefault(); state.homeY = 0; goHome();
+  });
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-wa]'), function(a){
     a.href = waLink(a.dataset.wa === 'advice'
